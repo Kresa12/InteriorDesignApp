@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Interior Design Decoration</string>
+    <string name="lauch_text1">HOME</string>
+    <string name="lauch_text2">DECOR</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. </string>
+    <string name="btn_log_in_text">Log In</string>
+    <string name="btn_sig_up_text">Sig Up</string>
+</resources>
