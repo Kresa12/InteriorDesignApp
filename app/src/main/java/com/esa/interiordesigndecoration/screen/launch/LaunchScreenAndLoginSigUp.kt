@@ -72,6 +72,7 @@ fun LaunchScreenAndLoginSigUp(
                     .width(250.dp)
             )
             Spacer(Modifier.height(25.dp))
+
             LauchButtonLoginSigUp(
                 navController = navController,
                 modifier = Modifier

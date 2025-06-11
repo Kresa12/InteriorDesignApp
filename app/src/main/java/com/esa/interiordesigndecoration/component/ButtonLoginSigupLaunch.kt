@@ -35,7 +35,9 @@ fun LauchButtonLoginSigUp(
         }
 
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate("signup")
+            },
             colors = ButtonDefaults.buttonColors(Color(0xFFFAF0E6)),
             modifier = Modifier
                 .fillMaxWidth()

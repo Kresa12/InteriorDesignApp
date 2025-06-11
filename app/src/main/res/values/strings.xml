@@ -5,4 +5,21 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. </string>
     <string name="btn_log_in_text">Log In</string>
     <string name="btn_sig_up_text">Sig Up</string>
+    <string name="title_log_in_screen">Log In</string>
+    <string name="welcome_text_login">Welcome</string>
+    <string name="login_text_screen">Please enter your details to proceed.</string>
+    <string name="login_form_text_username_or_email">Username Or Email</string>
+    <string name="password_text_login">Password</string>
+    <string name="login_button_text">Log In</string>
+    <string name="forget_password_text">Forget Password</string>
+    <string name="or_sign_up_with">or sign up with</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="sign_up_dialogue">Sign Up</string>
+    <string name="topbar_text_create_account">Create Account</string>
+    <string name="signup_text_full_name">Full Name</string>
+    <string name="signup_text_email">Email</string>
+    <string name="signup_text_mobile_number">Mobile Number</string>
+    <string name="signup_text_date_of_birth">Date Of Birth</string>
+    <string name="signup_text_confirm_password">Confirm Password</string>
+    <string name="signup_btn_sign_up">Sign Up</string>
 </resources>
