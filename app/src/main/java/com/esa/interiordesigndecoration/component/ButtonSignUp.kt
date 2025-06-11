@@ -28,14 +28,16 @@ fun ButtonSignUp(modifier: Modifier = Modifier) {
     ){
 
         Text(
-            text = "By continuing, you agree to \n" +
-                    " Terms of Use and Privacy Policy.",
+            text = buildString {
+                append(stringResource(R.string.by_continuing_you_agree_to))
+                append(stringResource(R.string.terms_of_use_and_privacy_policy))
+            },
             textAlign = TextAlign.Center
         )
 
         Spacer(Modifier.height(7.dp))
         Button(
-            onClick = { },
+            onClick = {},
             colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
             modifier = Modifier
                 .width(180.dp)

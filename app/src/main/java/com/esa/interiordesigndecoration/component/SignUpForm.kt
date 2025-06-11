@@ -57,7 +57,10 @@ fun SignFormUI(
     valuePassword : String,
     onValueChangePassword : (String)-> Unit,
     passwordVisible : Boolean,
-    passwordVisibleChange : ()->Unit
+    passwordVisibleChange : ()->Unit,
+    valueConfirmPassword : String,
+    onValueConfirmPassword : (String)->Unit,
+    isConfirmPasswordError : Boolean
 ) {
 
     Column (
@@ -261,8 +264,8 @@ fun SignFormUI(
             Spacer(Modifier.height(5.dp))
 
             OutlinedTextField(
-                value = valuePassword,
-                onValueChange = onValueChangePassword,
+                value = valueConfirmPassword,
+                onValueChange = onValueConfirmPassword,
                 shape = RoundedCornerShape(27.dp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -283,6 +286,7 @@ fun SignFormUI(
                     focusedBorderColor = Color(0xFFFAF0E6),
                     cursorColor = Color.Black
                 ),
+                isError = isConfirmPasswordError,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(45.dp),
@@ -308,6 +312,8 @@ fun SignUpForm(modifier: Modifier = Modifier) {
     val formatter = remember { SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) }
 
     var valuePassword by remember { mutableStateOf("") }
+    var valueConfirmPassword by remember { mutableStateOf("") }
+    var isConfirmPasswordError by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
@@ -358,6 +364,14 @@ fun SignUpForm(modifier: Modifier = Modifier) {
         onDateClick = {showDatePicker = true},
         valuePassword = valuePassword,
         onValueChangePassword = {valuePassword = it},
+        valueConfirmPassword = valueConfirmPassword,
+        onValueConfirmPassword = {
+            valueConfirmPassword = it
+            if (valueConfirmPassword == valuePassword){
+                isConfirmPasswordError = true
+            }
+        },
+        isConfirmPasswordError = isConfirmPasswordError,
         passwordVisible = passwordVisible,
         passwordVisibleChange = {passwordVisible = !passwordVisible}
     )

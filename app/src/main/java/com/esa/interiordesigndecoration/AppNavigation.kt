@@ -1,11 +1,10 @@
 package com.esa.interiordesigndecoration
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.esa.interiordesigndecoration.screen.SIgnUp.SignUpScreen
+import com.esa.interiordesigndecoration.screen.sIgnup.SignUpScreen
 import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen

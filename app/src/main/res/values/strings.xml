@@ -22,4 +22,10 @@
     <string name="signup_text_date_of_birth">Date Of Birth</string>
     <string name="signup_text_confirm_password">Confirm Password</string>
     <string name="signup_btn_sign_up">Sign Up</string>
+    <string name="by_continuing_you_agree_to">By continuing, you agree to \n</string>
+    <string name="terms_of_use_and_privacy_policy">" Terms of Use and Privacy Policy."</string>
+    <string name="forgot_password_text">Forgot Password</string>
+    <string name="reset_password_text">Reset Password?</string>
+    <string name="forgot_pass_desc">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "</string>
+    <string name="button_text_next">Next</string>
 </resources>
