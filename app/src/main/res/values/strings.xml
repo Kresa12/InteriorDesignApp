@@ -28,4 +28,7 @@
     <string name="reset_password_text">Reset Password?</string>
     <string name="forgot_pass_desc">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "</string>
     <string name="button_text_next">Next</string>
+    <string name="change_the_password">change the password</string>
+    <string name="set_password_text">Set Password</string>
+    <string name="reset_password_text_btn">Reset Password</string>
 </resources>

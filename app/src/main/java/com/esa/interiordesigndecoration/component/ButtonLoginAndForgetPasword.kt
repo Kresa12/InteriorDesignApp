@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 
 @Composable
 fun ButtonLoginAndForgetPasswordUI(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Column (
         modifier = modifier
@@ -43,7 +45,9 @@ fun ButtonLoginAndForgetPasswordUI(
         Text(
             text = stringResource(R.string.forget_password_text),
             modifier = Modifier
-                .clickable {  }
+                .clickable {
+                    navController.navigate("forgotPassword")
+                }
         )
     }
 }

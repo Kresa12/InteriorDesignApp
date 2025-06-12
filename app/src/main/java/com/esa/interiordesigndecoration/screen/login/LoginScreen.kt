@@ -79,7 +79,9 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(Modifier.height(55.dp))
 
-        ButtonLoginAndForgetPasswordUI()
+        ButtonLoginAndForgetPasswordUI(
+            navController = navController
+        )
 
         Spacer(Modifier.height(100.dp))
 

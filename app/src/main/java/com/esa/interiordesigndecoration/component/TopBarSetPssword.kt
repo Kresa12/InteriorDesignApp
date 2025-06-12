@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,14 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 
 @Composable
-fun TopBarForgotPassword(
+fun TopBarSetPassword(
     modifier: Modifier = Modifier,
-    navController : NavController
-    ) {
+    onBackClicked : () -> Unit = {}
+) {
 
     Row(
         modifier = modifier,
@@ -31,17 +30,17 @@ fun TopBarForgotPassword(
         horizontalArrangement = Arrangement.SpaceBetween
     ){
         Icon(
-            imageVector = Icons.Outlined.ArrowBack,
+            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
             contentDescription = "",
             modifier = Modifier
                 .size(35.dp)
                 .clickable {
-                    navController.popBackStack()
+                    onBackClicked()
                 }
         )
 
         Text(
-            text = stringResource(R.string.forgot_password_text),
+            text = stringResource(R.string.set_password_text),
             color = Color(0xFFF4B5A4),
             fontSize = 27.sp,
             fontWeight = FontWeight.Bold

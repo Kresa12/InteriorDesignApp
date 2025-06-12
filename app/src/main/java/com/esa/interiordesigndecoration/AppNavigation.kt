@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.esa.interiordesigndecoration.screen.forgotpassword.ForgotPasswordScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignUpScreen
 import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
+import com.esa.interiordesigndecoration.screen.setpassword.SetPasswordScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 
 @Composable
@@ -19,6 +21,12 @@ fun AppNavigation() {
         composable("launch"){ LaunchScreenAndLoginSigUp(navController = navController) }
         composable("login"){ LoginScreen(navController) }
         composable("signup"){ SignUpScreen(navController) }
+        composable("forgotPassword"){ ForgotPasswordScreen(navController = navController) }
+        composable("setPassword"){ SetPasswordScreen(
+            onBackClicked = {navController.popBackStack()},
+            onClickResetPasswordButton = {navController.navigate("login")}
+        ) }
+        //besok benerin masalah navController dulu ya, buka gpt
     }
 
 }

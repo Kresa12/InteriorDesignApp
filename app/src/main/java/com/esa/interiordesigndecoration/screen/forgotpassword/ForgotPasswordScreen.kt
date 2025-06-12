@@ -34,7 +34,7 @@ import com.esa.interiordesigndecoration.component.TopBarForgotPassword
 @Composable
 fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
-//    navController: NavController
+    navController: NavController? = null
     ) {
     Column (
         modifier = modifier
@@ -43,12 +43,14 @@ fun ForgotPasswordScreen(
     ){
         Spacer(Modifier.height(60.dp))
 
-        TopBarForgotPassword(
-//            navController = navController
-            modifier = Modifier
-                .width(310.dp)
-                .padding(20.dp)
-        )
+        if (navController != null){
+            TopBarForgotPassword(
+                navController = navController,
+                modifier = Modifier
+                    .width(310.dp)
+                    .padding(20.dp)
+            )
+        }
 
         Spacer(Modifier.height(20.dp))
 
@@ -59,6 +61,8 @@ fun ForgotPasswordScreen(
             modifier = Modifier
                 .padding(start = 40.dp)
         )
+
+        Spacer(Modifier.height(10.dp))
 
         Text(
             text = stringResource(R.string.forgot_pass_desc),
@@ -114,7 +118,9 @@ fun ForgotPasswordScreen(
 
             Column {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController?.navigate("setPassword")
+                    },
                     colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
                     modifier = Modifier
                         .width(180.dp)
