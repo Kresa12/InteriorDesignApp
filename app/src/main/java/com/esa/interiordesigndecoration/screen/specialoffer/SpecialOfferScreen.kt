@@ -93,7 +93,7 @@ fun TopBarSpecialOffer(
         )
 
         Text(
-            text = stringResource(R.string.forgot_password_text),
+            text = stringResource(R.string.special_offer),
             color = Color(0xFFF4B5A4),
             fontSize = 27.sp,
             fontWeight = FontWeight.Bold
