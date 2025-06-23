@@ -1,0 +1,269 @@
+package com.esa.interiordesigndecoration.screen.specialoffer
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.esa.interiordesigndecoration.R
+import com.esa.interiordesigndecoration.component.Search
+import com.esa.interiordesigndecoration.model.CardProductModel
+
+@Composable
+fun SpecialOfferScreen(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+
+        Spacer(Modifier.height(60.dp))
+
+        TopBarSpecialOffer()
+
+        Spacer(Modifier.height(10.dp))
+
+        Category()
+
+        Spacer(Modifier.height(25.dp))
+
+        CardProduct()
+    }
+}
+
+
+@Composable
+fun TopBarSpecialOffer(
+    modifier: Modifier = Modifier
+) {
+
+    Row(
+        modifier = modifier
+            .padding(horizontal = 20.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Icon(
+            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+            contentDescription = "",
+            modifier = Modifier
+                .size(35.dp)
+                .clickable {
+//                    navController.popBackStack()
+                }
+        )
+
+        Text(
+            text = stringResource(R.string.forgot_password_text),
+            color = Color(0xFFF4B5A4),
+            fontSize = 27.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Search()
+    }
+}
+
+
+@Composable
+fun Category(modifier: Modifier = Modifier) {
+    val categorylist = listOf("Living room", "Decorative Live", "Bedroom", "Dining Room")
+    Row (
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ){
+        LazyRow (
+            horizontalArrangement = Arrangement.spacedBy(21.dp)
+        ){
+            items(categorylist){
+                Text(
+                    text = "$it      |",
+                    color = Color(0xFFDCBEB6),
+                    fontSize = 22.sp
+                )
+
+
+            }
+        }
+    }
+}
+
+@Composable
+fun CardProduct(modifier: Modifier = Modifier) {
+
+    val cardProductList = listOf(
+        CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom3, nameProduct = "Product 3", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom4, nameProduct = "Product 4", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom5, nameProduct = "Product 5", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen1, nameProduct = "Product 6", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen2, nameProduct = "Product 7", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen3, nameProduct = "Product 8", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom3, nameProduct = "Product 3", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom4, nameProduct = "Product 4", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.bedroom5, nameProduct = "Product 5", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen1, nameProduct = "Product 6", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen2, nameProduct = "Product 7", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
+        CardProductModel(image = R.drawable.kitchen3, nameProduct = "Product 8", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000)
+    )
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(750.dp)
+            .padding(horizontal = 18.dp)
+    ) {
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            items(cardProductList){
+                Card(
+                    colors = CardDefaults.cardColors(Color.White)
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                            .background(Color(0xFFFAF0E6))
+                    ){
+                        Image(
+                            painter = painterResource(it.image),
+                            contentDescription = "product",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(110.dp)
+                        )
+                    }
+
+                    Spacer(Modifier.height(7.dp))
+
+                    Text(
+                        text = it.nameProduct,
+                        color = Color(0xFFF4B5A4),
+                        fontSize = 16.sp
+                    )
+
+                    Text(
+                        text = it.descriptionProduct,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W300
+                    )
+
+                    Spacer(Modifier.height(3.dp))
+
+                    Divider(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color.Gray,
+                        thickness = 0.5.dp
+                    )
+
+                    Spacer(Modifier.height(3.dp))
+
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
+                    ){
+                        Text(
+                            text = "$"+ it.price.toString(),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color(0xFFCC7861),
+                            fontSize = 14.sp
+                        )
+
+                        Row {
+                            IconButton(
+                                onClick = {},
+                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
+                                modifier = Modifier
+                                    .size(20.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Favorite,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp)
+                                )
+                            }
+
+                            IconButton(
+                                onClick = {},
+                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
+                                modifier = Modifier
+                                    .size(20.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp)
+                                )
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+    }
+}
+
+@Preview
+@Composable
+private fun SpecialOfferPrev() {
+    SpecialOfferScreen()
+}
