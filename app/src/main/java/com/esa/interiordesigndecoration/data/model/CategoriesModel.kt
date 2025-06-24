@@ -1,4 +1,4 @@
-package com.esa.interiordesigndecoration.model
+package com.esa.interiordesigndecoration.data.model
 
 import android.media.Image
 

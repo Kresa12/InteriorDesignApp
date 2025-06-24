@@ -57,8 +57,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
-import com.esa.interiordesigndecoration.model.CardProductModel
-import com.esa.interiordesigndecoration.model.CategoriesModel
+import com.esa.interiordesigndecoration.data.model.CardProductModel
+import com.esa.interiordesigndecoration.data.model.CategoriesModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

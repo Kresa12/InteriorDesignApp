@@ -1,6 +1,5 @@
 package com.esa.interiordesigndecoration.screen.specialoffer
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,26 +23,29 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
-import com.esa.interiordesigndecoration.model.CardProductModel
+import com.esa.interiordesigndecoration.data.model.ProductModel
 
 @Composable
 fun SpecialOfferScreen(
@@ -65,7 +67,7 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(25.dp))
 
-        CardProduct()
+        Tes()
     }
 }
 
@@ -129,39 +131,29 @@ fun Category(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardProduct(modifier: Modifier = Modifier) {
-
-    val cardProductList = listOf(
-        CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom3, nameProduct = "Product 3", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom4, nameProduct = "Product 4", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom5, nameProduct = "Product 5", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen1, nameProduct = "Product 6", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen2, nameProduct = "Product 7", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen3, nameProduct = "Product 8", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom3, nameProduct = "Product 3", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom4, nameProduct = "Product 4", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom5, nameProduct = "Product 5", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen1, nameProduct = "Product 6", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen2, nameProduct = "Product 7", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen3, nameProduct = "Product 8", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000)
-    )
+fun CardProduct(
+    modifier: Modifier = Modifier,
+    product : List<ProductModel>,
+    onFetch : () -> Unit
+) {
+    
     Column(
         modifier = modifier
             .fillMaxWidth()
             .height(750.dp)
             .padding(horizontal = 18.dp)
     ) {
+        
+        LaunchedEffect(Unit) {
+            onFetch()
+        }
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(cardProductList){
+            items(product){
                 Card(
                     colors = CardDefaults.cardColors(Color.White)
                 ) {
@@ -172,8 +164,8 @@ fun CardProduct(modifier: Modifier = Modifier) {
                             .height(100.dp)
                             .background(Color(0xFFFAF0E6))
                     ){
-                        Image(
-                            painter = painterResource(it.image),
+                        AsyncImage(
+                            model = it.pictureUrl,
                             contentDescription = "product",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -184,23 +176,23 @@ fun CardProduct(modifier: Modifier = Modifier) {
                     Spacer(Modifier.height(7.dp))
 
                     Text(
-                        text = it.nameProduct,
+                        text = it.name,
                         color = Color(0xFFF4B5A4),
                         fontSize = 16.sp
                     )
 
                     Text(
-                        text = it.descriptionProduct,
+                        text = it.description,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300
                     )
 
                     Spacer(Modifier.height(3.dp))
 
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
-                        color = Color.Gray,
-                        thickness = 0.5.dp
+                        thickness = 0.5.dp,
+                        color = Color.Gray
                     )
 
                     Spacer(Modifier.height(3.dp))
