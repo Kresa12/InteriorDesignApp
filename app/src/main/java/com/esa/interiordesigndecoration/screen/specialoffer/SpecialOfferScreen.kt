@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,7 +47,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
-import com.esa.interiordesigndecoration.data.model.ProductModel
 
 @Composable
 fun SpecialOfferScreen(
@@ -67,7 +68,7 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(25.dp))
 
-        Tes()
+        CardProduct()
     }
 }
 
@@ -133,19 +134,41 @@ fun Category(modifier: Modifier = Modifier) {
 @Composable
 fun CardProduct(
     modifier: Modifier = Modifier,
-    product : List<ProductModel>,
-    onFetch : () -> Unit
+    viewModel: ProductViewModel = viewModel()
 ) {
-    
+    val product = viewModel.product.collectAsState()
+    val productList = product.value
+    val isLoading = viewModel.isLoading.collectAsState()
+    val tes = isLoading.value
+    val onFetch = viewModel.fetchProduct()
     Column(
         modifier = modifier
             .fillMaxWidth()
             .height(750.dp)
             .padding(horizontal = 18.dp)
     ) {
-        
+        if (tes){
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = Color.White,
+                    trackColor = Color(0xFFFAF0E6),
+                )
+
+                Text(
+                    text = "Loading..."
+                )
+            }
+
+        }
+
         LaunchedEffect(Unit) {
-            onFetch()
+            return@LaunchedEffect onFetch
         }
 
         LazyVerticalGrid(
@@ -153,7 +176,7 @@ fun CardProduct(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(product){
+            items(productList){
                 Card(
                     colors = CardDefaults.cardColors(Color.White)
                 ) {
