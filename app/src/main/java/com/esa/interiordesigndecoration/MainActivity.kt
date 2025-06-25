@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.esa.interiordesigndecoration.screen.specialoffer.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +15,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SpecialOfferScreen()
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "product"){
+                composable("product"){
+                    SpecialOfferScreen(
+                        navController = navController
+                    )
+                }
+                //sudah berhasil membuat detail screen, namun ketika product di klik product belum muncul di detail screen
+                composable("productDetail/{productId}"){backStackEntry ->
+                    val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
+                    if (productId != null){
+                        DetailProductScrenn(
+                            productId = productId,
+                            onBackClicked = {navController.popBackStack()}
+                        )
+                    }
+                }
+            }
         }
     }
 }

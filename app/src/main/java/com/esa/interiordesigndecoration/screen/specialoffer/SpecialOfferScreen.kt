@@ -44,13 +44,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
 
 @Composable
 fun SpecialOfferScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+//    onProductClicked: () -> Unit = {},
+    onBackClicked: () -> Unit = {},
+    navController: NavController
 ) {
     Column(
         modifier = modifier
@@ -60,7 +64,7 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(60.dp))
 
-        TopBarSpecialOffer()
+        TopBarSpecialOffer(onBackClicked = onBackClicked)
 
         Spacer(Modifier.height(10.dp))
 
@@ -68,14 +72,15 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(25.dp))
 
-        CardProduct()
+        CardProduct(navController = navController)
     }
 }
 
 
 @Composable
 fun TopBarSpecialOffer(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackClicked : () -> Unit = {}
 ) {
 
     Row(
@@ -91,7 +96,7 @@ fun TopBarSpecialOffer(
             modifier = Modifier
                 .size(35.dp)
                 .clickable {
-//                    navController.popBackStack()
+                    onBackClicked()
                 }
         )
 
@@ -134,12 +139,14 @@ fun Category(modifier: Modifier = Modifier) {
 @Composable
 fun CardProduct(
     modifier: Modifier = Modifier,
-    viewModel: ProductViewModel = viewModel()
+    viewModel: ProductViewModel = viewModel(),
+//    onProductClicked : () -> Unit = {},
+    navController: NavController
 ) {
     val product = viewModel.product.collectAsState()
     val productList = product.value
     val isLoading = viewModel.isLoading.collectAsState()
-    val tes = isLoading.value
+    val loadingValue = isLoading.value
     val onFetch = viewModel.fetchProduct()
     Column(
         modifier = modifier
@@ -147,7 +154,7 @@ fun CardProduct(
             .height(750.dp)
             .padding(horizontal = 18.dp)
     ) {
-        if (tes){
+        if (loadingValue){
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -178,7 +185,9 @@ fun CardProduct(
         ) {
             items(productList){
                 Card(
-                    colors = CardDefaults.cardColors(Color.White)
+                    colors = CardDefaults.cardColors(Color.White),
+                    modifier = Modifier
+                        .clickable { navController.navigate("productDetail/${it.id}") }
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -277,8 +286,8 @@ fun CardProduct(
     }
 }
 
-@Preview
-@Composable
-private fun SpecialOfferPrev() {
-    SpecialOfferScreen()
-}
+//@Preview
+//@Composable
+//private fun SpecialOfferPrev() {
+//    SpecialOfferScreen()
+//}
