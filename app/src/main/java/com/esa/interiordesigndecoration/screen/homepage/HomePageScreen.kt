@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -58,7 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
 import com.esa.interiordesigndecoration.data.model.CardProductModel
-import com.esa.interiordesigndecoration.data.model.CategoriesModel
+import com.esa.interiordesigndecoration.data.model.RoomNameModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -207,17 +204,17 @@ fun Categories(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(10.dp))
 
-        val listCategories : List<CategoriesModel> = listOf(
-            CategoriesModel(R.drawable.categorybedroom),
-            CategoriesModel(R.drawable.categorydiningroom),
-            CategoriesModel(R.drawable.categorykitcen),
-            CategoriesModel(R.drawable.categorylivingroom),
-            CategoriesModel(R.drawable.categoryoffice),
-            CategoriesModel(R.drawable.categorybedroom),
-            CategoriesModel(R.drawable.categorydiningroom),
-            CategoriesModel(R.drawable.categorykitcen),
-            CategoriesModel(R.drawable.categorylivingroom),
-            CategoriesModel(R.drawable.categoryoffice)
+        val listCategories : List<RoomNameModel> = listOf(
+            RoomNameModel(R.drawable.categorybedroom),
+            RoomNameModel(R.drawable.categorydiningroom),
+            RoomNameModel(R.drawable.categorykitcen),
+            RoomNameModel(R.drawable.categorylivingroom),
+            RoomNameModel(R.drawable.categoryoffice),
+            RoomNameModel(R.drawable.categorybedroom),
+            RoomNameModel(R.drawable.categorydiningroom),
+            RoomNameModel(R.drawable.categorykitcen),
+            RoomNameModel(R.drawable.categorylivingroom),
+            RoomNameModel(R.drawable.categoryoffice)
         )
 
         var selected by remember { mutableStateOf(listCategories[0]) }

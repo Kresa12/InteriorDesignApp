@@ -1,4 +1,4 @@
-package com.esa.interiordesigndecoration.screen.specialoffer
+package com.esa.interiordesigndecoration.data.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

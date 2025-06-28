@@ -48,6 +48,8 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
+import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
+import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
 @Composable
 fun SpecialOfferScreen(
@@ -113,19 +115,30 @@ fun TopBarSpecialOffer(
 
 
 @Composable
-fun Category(modifier: Modifier = Modifier) {
-    val categorylist = listOf("Living room", "Decorative Live", "Bedroom", "Dining Room")
+fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewModel()) {
+    val category = viewModel.category.collectAsState()
+    val categoryList = category.value
+
+    val onFatch = viewModel.fetchCategory()
+
+
+
     Row (
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
     ){
+        LaunchedEffect(Unit) {
+            return@LaunchedEffect onFatch
+        }
+
         LazyRow (
             horizontalArrangement = Arrangement.spacedBy(21.dp)
         ){
-            items(categorylist){
+
+            items(categoryList){
                 Text(
-                    text = "$it      |",
+                    text = "${it.name}      |",
                     color = Color(0xFFDCBEB6),
                     fontSize = 22.sp
                 )

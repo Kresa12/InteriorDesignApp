@@ -1,6 +1,7 @@
 package com.esa.interiordesigndecoration.data.model
 
-import android.media.Image
 
-
-data class CategoriesModel(val image : Int)
+data class CategoryModel(
+    val id : Int,
+    val name : String
+)
