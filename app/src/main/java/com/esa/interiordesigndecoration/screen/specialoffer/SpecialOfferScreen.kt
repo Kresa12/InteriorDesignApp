@@ -34,13 +34,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -56,7 +59,8 @@ fun SpecialOfferScreen(
     modifier: Modifier = Modifier,
 //    onProductClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
-    navController: NavController
+    navController: NavController,
+    onCategorySelected : String
 ) {
     Column(
         modifier = modifier
@@ -70,7 +74,7 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(10.dp))
 
-        Category()
+        Category(onCategorySelected = {onCategorySelected})
 
         Spacer(Modifier.height(25.dp))
 
@@ -115,13 +119,11 @@ fun TopBarSpecialOffer(
 
 
 @Composable
-fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewModel()) {
+fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewModel(), onCategorySelected : (String) -> String) {
     val category = viewModel.category.collectAsState()
     val categoryList = category.value
 
     val onFatch = viewModel.fetchCategory()
-
-
 
     Row (
         modifier = modifier
@@ -132,18 +134,23 @@ fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewM
             return@LaunchedEffect onFatch
         }
 
+        var selected by remember { mutableStateOf(categoryList[0]) }
         LazyRow (
             horizontalArrangement = Arrangement.spacedBy(21.dp)
         ){
-
             items(categoryList){
+                val isSelected = it == selected
                 Text(
                     text = "${it.name}      |",
-                    color = Color(0xFFDCBEB6),
-                    fontSize = 22.sp
+                    color = if(isSelected) Color(0xFFCC7861) else Color(0xFFDCBEB6),
+                    fontSize = 22.sp,
+                    modifier = Modifier
+                        .clickable {
+                            selected = it
+                            onCategorySelected(selected.toString())
+                        }
+
                 )
-
-
             }
         }
     }
