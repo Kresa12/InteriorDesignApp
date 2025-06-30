@@ -51,7 +51,6 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
-import com.esa.interiordesigndecoration.data.model.CategoryByCategoryNameModelChairs
 import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
@@ -60,9 +59,11 @@ fun SpecialOfferScreen(
     modifier: Modifier = Modifier,
 //    onProductClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
-    navController: NavController,
-    onCategorySelected : String
+    navController: NavController
 ) {
+
+    var selectedCategory by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -75,11 +76,11 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(10.dp))
 
-        Category(onCategorySelected = {onCategorySelected})
+        Category(onCategorySelected = {selectedCategory = it})
 
         Spacer(Modifier.height(25.dp))
 
-        CardProduct(navController = navController, onCategorySelected = onCategorySelected)
+        CardProduct(navController = navController, selectedCategory = selectedCategory)
     }
 }
 
@@ -120,7 +121,11 @@ fun TopBarSpecialOffer(
 
 
 @Composable
-fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewModel(), onCategorySelected : (String) -> String) {
+fun Category(
+    modifier: Modifier = Modifier,
+//    selectedCategory: String,
+    onCategorySelected: (String) -> Unit,
+    viewModel: CategoryViewModel = viewModel()) {
     val category = viewModel.category.collectAsState()
     val categoryList = category.value
 
@@ -131,24 +136,32 @@ fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewM
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
     ){
-        LaunchedEffect(Unit) {
-            return@LaunchedEffect onFatch
-        }
+//        LaunchedEffect(Unit) {
+//            return@LaunchedEffect onFatch
+//        }
 
-        var selected by remember { mutableStateOf(categoryList[0]) }
+
+        var selected by remember { mutableStateOf("") }
+
+        LaunchedEffect(categoryList) {
+            if (categoryList.isNotEmpty() && selected.isEmpty()) {
+                selected = categoryList[0].name
+                onCategorySelected(selected)
+            }
+        }
         LazyRow (
             horizontalArrangement = Arrangement.spacedBy(21.dp)
         ){
             items(categoryList){
-                val isSelected = it == selected
+                val isSelected = it.name == selected
                 Text(
                     text = "${it.name}      |",
                     color = if(isSelected) Color(0xFFCC7861) else Color(0xFFDCBEB6),
                     fontSize = 22.sp,
                     modifier = Modifier
                         .clickable {
-                            selected = it
-                            onCategorySelected(selected.toString())
+                            selected = it.name
+                            onCategorySelected(it.name)
                         }
                 )
             }
@@ -160,15 +173,17 @@ fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewM
 fun CardProduct(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
-//    onProductClicked : () -> Unit = {},
     navController: NavController,
-    onCategorySelected: String
+    selectedCategory : String
 ) {
     val product = viewModel.product.collectAsState()
     val productList = product.value
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onFetch = viewModel.fetchProduct()
+
+    val tes = productList.filter { it.categoryName == selectedCategory }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -204,7 +219,7 @@ fun CardProduct(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(productList){
+            items(tes){
                 Card(
                     colors = CardDefaults.cardColors(Color.White),
                     modifier = Modifier
@@ -299,6 +314,10 @@ fun CardProduct(
                         }
 
                     }
+
+                    Text(
+                        text = it.categoryName
+                    )
 
                 }
             }

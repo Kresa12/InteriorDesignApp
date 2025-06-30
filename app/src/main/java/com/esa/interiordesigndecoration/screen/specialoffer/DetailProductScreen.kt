@@ -57,7 +57,7 @@ fun DetailProductScrenn(
 
         Spacer(Modifier.height(10.dp))
 
-        Category()
+//        Category()
 
         DetailProductInformation(productId = productId)
 

@@ -7,12 +7,13 @@ import com.esa.interiordesigndecoration.data.repository.ProductRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository = ProductRepository()): ViewModel() {
 
     private val _product = MutableStateFlow<List<ProductModel>>(emptyList())
-    val product : StateFlow<List<ProductModel>> = _product
+    val product : StateFlow<List<ProductModel>> = _product.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading : StateFlow<Boolean> = _isLoading
@@ -25,7 +26,7 @@ class ProductViewModel(private val repository: ProductRepository = ProductReposi
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                delay(2000)
+                delay(5000)
                 val result = repository.getProduct()
                 _product.value = result
             }catch (e : Exception){
