@@ -51,6 +51,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.Search
+import com.esa.interiordesigndecoration.data.model.CategoryByCategoryNameModelChairs
 import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
@@ -78,7 +79,7 @@ fun SpecialOfferScreen(
 
         Spacer(Modifier.height(25.dp))
 
-        CardProduct(navController = navController)
+        CardProduct(navController = navController, onCategorySelected = onCategorySelected)
     }
 }
 
@@ -149,7 +150,6 @@ fun Category(modifier: Modifier = Modifier, viewModel: CategoryViewModel = viewM
                             selected = it
                             onCategorySelected(selected.toString())
                         }
-
                 )
             }
         }
@@ -161,7 +161,8 @@ fun CardProduct(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
 //    onProductClicked : () -> Unit = {},
-    navController: NavController
+    navController: NavController,
+    onCategorySelected: String
 ) {
     val product = viewModel.product.collectAsState()
     val productList = product.value

@@ -1,6 +1,6 @@
-package com.esa.interiordesigndecoration.data.model
+package com.esa.interiordesigndecoration.data.repository
 
-data class CategoryByCategoryNameModel(
+data class CategoryByCategoryNameRepositoryTables(
     val id : Int,
     val name : String,
     val description : String,
