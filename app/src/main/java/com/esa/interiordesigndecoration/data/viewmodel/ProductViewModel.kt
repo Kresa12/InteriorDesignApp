@@ -7,20 +7,25 @@ import com.esa.interiordesigndecoration.data.repository.ProductRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository = ProductRepository()): ViewModel() {
     private val _product = MutableStateFlow<List<ProductModel>>(emptyList())
     val product : StateFlow<List<ProductModel>> = _product
+
     private val _productDetail = MutableStateFlow<ProductModel?>(null)
     val productDetail : StateFlow<ProductModel?> = _productDetail
+
+    private val _productByCategory = MutableStateFlow<List<ProductModel>>(emptyList())
+    val productByCategory : StateFlow<List<ProductModel>> = _productByCategory
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading : StateFlow<Boolean> = _isLoading
-    private var hasFetched = false
+
     init {
         fetchProduct()
     }
+    private var hasFetched = false
     fun fetchProduct(){
         if (hasFetched) return
         viewModelScope.launch {
@@ -37,21 +42,43 @@ class ProductViewModel(private val repository: ProductRepository = ProductReposi
             }
         }
     }
-
-    fun getProductByid(productId : String){
-        if (hasFetched) return
+    private val productDetailCache = mutableMapOf<String, ProductModel>()
+    fun getProductByid(productId: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
-                _isLoading.value = true
-//                delay(5000)
-                val result = repository.getProductById(productId = productId)
-                _productDetail.value = result
-                hasFetched = true
-            }catch (e : Exception){
-                e.printStackTrace()
-            }finally {
+                val cached = productDetailCache[productId]
+                if (cached != null) {
+                    _productDetail.value = cached
+                } else {
+                    val result = repository.getProductById(productId)
+                    productDetailCache[productId] = result
+                    _productDetail.value = result
+                }
+            } finally {
                 _isLoading.value = false
             }
         }
     }
+    private val categoryCache = mutableMapOf<String, List<ProductModel>>()
+    fun getAllFurnishCategoryByCategoryName(categoryName: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val cached = categoryCache[categoryName]
+                if (cached != null) {
+                    _productByCategory.value = cached
+                } else {
+                    val result = repository.getAllFurnishCategoryByCategoryName(categoryName)
+                    categoryCache[categoryName] = result
+                    _productByCategory.value = result
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
 }

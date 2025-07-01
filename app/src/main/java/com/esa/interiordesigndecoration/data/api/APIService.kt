@@ -4,6 +4,7 @@ import com.esa.interiordesigndecoration.data.model.CategoryModel
 import com.esa.interiordesigndecoration.data.model.ProductModel
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIService {
     @GET("Furniture/AllFurniture")
@@ -14,4 +15,7 @@ interface APIService {
 
     @GET("Category/AllCategories")
     suspend fun getCategory() : List<CategoryModel>
+
+    @GET("Furniture/GetAllFurnisInCategoryByCategoryName")
+    suspend fun getAllFurnishCategoryByCategoryName(@Query("category") categoryName : String) : List<ProductModel>
 }

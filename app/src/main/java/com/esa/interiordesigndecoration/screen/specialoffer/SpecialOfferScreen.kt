@@ -165,14 +165,18 @@ fun CardProduct(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
     navController: NavController,
-    selectedCategory : String
+    selectedCategory : String,
 ) {
     val product = viewModel.product.collectAsState()
     val productList = product.value
+    val productByCategory by viewModel.productByCategory.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onFetch = viewModel.fetchProduct()
-    val productFilter = productList.filter { it.categoryName == selectedCategory }
+    val onGetAllFurnishCategoryByCategoryName = viewModel.getAllFurnishCategoryByCategoryName(categoryName = selectedCategory)
+    LaunchedEffect(selectedCategory) {
+        return@LaunchedEffect onGetAllFurnishCategoryByCategoryName
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -197,15 +201,12 @@ fun CardProduct(
                 )
             }
         }
-        LaunchedEffect(Unit) {
-            return@LaunchedEffect onFetch
-        }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(productFilter){
+            items(productByCategory){
                 Card(
                     colors = CardDefaults.cardColors(Color.White),
                     modifier = Modifier

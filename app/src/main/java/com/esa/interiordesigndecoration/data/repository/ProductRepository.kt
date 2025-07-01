@@ -13,4 +13,8 @@ class ProductRepository(private val api : APIService = APIClient.apiService) {
     suspend fun getProductById(productId : String) : ProductModel{
         return api.getProductById(productId = productId)
     }
+
+    suspend fun getAllFurnishCategoryByCategoryName(categoryName : String) : List<ProductModel>{
+        return api.getAllFurnishCategoryByCategoryName(categoryName = categoryName)
+    }
 }
