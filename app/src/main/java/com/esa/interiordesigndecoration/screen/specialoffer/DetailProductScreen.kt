@@ -29,6 +29,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -48,7 +49,7 @@ import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 @Composable
 fun DetailProductScrenn(
     modifier: Modifier = Modifier,
-    productId: Int,
+    productId: String,
     onBackClicked: () -> Unit = {}
 ) {
     Column(
@@ -100,13 +101,15 @@ fun TopBarDetailProduct(
 fun DetailProductInformation(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
-    productId: Int
+    productId: String
 ) {
-    val product by viewModel.product.collectAsState()
-    val productDetail = product.find { it.id == productId }
-    val isLoading = viewModel.isLoading.collectAsState()
-    val loadingValue = isLoading.value
-    if (loadingValue){
+    val productDetail by viewModel.productDetail.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val onGetProductByIdFetch = viewModel.getProductByid(productId)
+    LaunchedEffect(productId) {
+        return@LaunchedEffect onGetProductByIdFetch
+    }
+    if (isLoading){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -135,22 +138,23 @@ fun DetailProductInformation(
                         .background(Color(0xFFFAF0E6))
                 ) {
                     AsyncImage(
-                        model = productDetail.pictureUrl,
+                        model = productDetail?.pictureUrl,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(500.dp),
                     )
                 }
+                Spacer(Modifier.height(10.dp))
                 Column{
                     Text(
-                        text = productDetail.name,
+                        text = productDetail!!.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = productDetail.description,
+                        text = productDetail!!.description,
                         textAlign = TextAlign.Center
                     )
                     Spacer(Modifier.height(15.dp))
@@ -164,7 +168,7 @@ fun DetailProductInformation(
                             .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
                     ) {
                         Text(
-                            text = "$ " + productDetail.price.toString(),
+                            text = "$ " + productDetail!!.price.toString(),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color(0xFFCC7861),
                             fontSize = 25.sp

@@ -9,4 +9,8 @@ class ProductRepository(private val api : APIService = APIClient.apiService) {
     suspend fun getProduct() : List<ProductModel>{
         return api.getProduct()
     }
+
+    suspend fun getProductById(productId : String) : ProductModel{
+        return api.getProductById(productId = productId)
+    }
 }

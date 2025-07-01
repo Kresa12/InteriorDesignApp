@@ -17,20 +17,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = "product"){
-                composable("product"){
+            NavHost(navController = navController, startDestination = "product") {
+                composable("product") {
                     SpecialOfferScreen(
                         navController = navController
                     )
                 }
-                composable("productDetail/{productId}"){backStackEntry ->
-                    val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
-                    if (productId != null){
-                        DetailProductScrenn(
-                            productId = productId,
-                            onBackClicked = {navController.popBackStack()}
-                        )
-                    }
+                composable("productDetail/{productId}") { backStackEntry ->
+                    val productId = backStackEntry.arguments?.getString("productId") ?: ""
+                    DetailProductScrenn(
+                        productId = productId,
+                        onBackClicked = { navController.popBackStack() }
+                    )
                 }
             }
         }

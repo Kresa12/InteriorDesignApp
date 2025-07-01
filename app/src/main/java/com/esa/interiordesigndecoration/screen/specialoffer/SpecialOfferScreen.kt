@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -222,9 +221,7 @@ fun CardProduct(
                         AsyncImage(
                             model = it.pictureUrl,
                             contentDescription = "product",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(110.dp)
+                            contentScale = ContentScale.FillBounds
                         )
                     }
 
