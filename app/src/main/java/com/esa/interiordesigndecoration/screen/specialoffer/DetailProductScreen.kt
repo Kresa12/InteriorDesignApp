@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -19,7 +20,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -32,7 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,15 +57,10 @@ fun DetailProductScrenn(
             .background(Color.White)
     ) {
         Spacer(Modifier.height(60.dp))
-
         TopBarDetailProduct(onBackClicked = onBackClicked)
-
-        Spacer(Modifier.height(10.dp))
-
-//        Category()
-
+        Spacer(Modifier.height(25.dp))
         DetailProductInformation(productId = productId)
-
+        Spacer(Modifier.height(30.dp))
         AddToCartButton()
     }
 }
@@ -70,7 +70,6 @@ fun TopBarDetailProduct(
     modifier: Modifier = Modifier,
     onBackClicked: () -> Unit = {}
 ) {
-
     Row(
         modifier = modifier
             .padding(horizontal = 20.dp)
@@ -87,14 +86,12 @@ fun TopBarDetailProduct(
                     onBackClicked()
                 }
         )
-
         Text(
             text = "Kategori Barang",
             color = Color(0xFFF4B5A4),
             fontSize = 27.sp,
             fontWeight = FontWeight.Bold
         )
-
         Search()
     }
 }
@@ -105,140 +102,138 @@ fun DetailProductInformation(
     viewModel: ProductViewModel = viewModel(),
     productId: Int
 ) {
-
     val product by viewModel.product.collectAsState()
     val productDetail = product.find { it.id == productId }
-
-//    val isLoading = viewModel.isLoading.collectAsState()
-//    val loadingValue = isLoading.value
-//
-//    val onFetch = viewModel.fetchProduct()
-
-    //selanjutnya tinggak mikirin gimana caranya loadingnya bagus baik di detail screen maupun di prdudct screen
-
-    productDetail?.let{
-
-//        if (loadingValue){
-//            CircularProgressIndicator(
-//                modifier = Modifier.width(64.dp),
-//                color = Color.White,
-//                trackColor = Color(0xFFFAF0E6),
-//            )
-//        }
-//
-//        LaunchedEffect(Unit) {
-//            return@LaunchedEffect onFetch
-//        }
-
+    val isLoading = viewModel.isLoading.collectAsState()
+    val loadingValue = isLoading.value
+    if (loadingValue){
         Column(
-            modifier = modifier
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(400.dp)
         ) {
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-                    .padding(horizontal = 20.dp)
-                    .clip(shape = RoundedCornerShape(13.dp))
-//                .aspectRatio(1f)
-                    .background(Color(0xFFFAF0E6))
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = Color.White,
+                trackColor = Color(0xFFFAF0E6),
+            )
+        }
+    }else{
+        productDetail?.let{
+            Column(
+                modifier = modifier
+                    .padding(20.dp)
             ) {
-                AsyncImage(
-                    model = productDetail.pictureUrl,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(500.dp)
-                )
-            }
-
-            Column {
-                Text(
-                    text = productDetail.name
-                )
-
-                Text(
-                    text = "Lorem ipsum dolor sit amet consectetur. Odio neque commodo id aenean quis magna. Auctor neque id pharetra gravida. Libero scelerisque ut mauris volutpat risus nec facilisi adipiscing. Augue mollis amet."
-                )
-
-                Divider()
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
+                        .height(250.dp)
+                        .clip(shape = RoundedCornerShape(13.dp))
+                        .background(Color(0xFFFAF0E6))
                 ) {
-                    Text(
-                        text = "$ " + productDetail.price.toString(),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color(0xFFCC7861),
-                        fontSize = 14.sp
+                    AsyncImage(
+                        model = productDetail.pictureUrl,
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(500.dp),
                     )
-
-                    Row {
-                        IconButton(
-                            onClick = {},
-                            colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
-                            modifier = Modifier
-                                .size(20.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Favorite,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(3.dp)
-                            )
-                        }
-
-                        IconButton(
-                            onClick = {},
-                            colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
-                            modifier = Modifier
-                                .size(20.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(3.dp)
-                            )
-                        }
-                    }
                 }
-
-                Row {
+                Column{
                     Text(
-                        text = "User Review"
+                        text = productDetail.name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp
                     )
-
-                    Row {
-                        for (i in 1..5) {
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = ""
-                            )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = productDetail.description,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(Modifier.height(15.dp))
+                    HorizontalDivider(color = Color(0xFFF4B5A4))
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
+                    ) {
+                        Text(
+                            text = "$ " + productDetail.price.toString(),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color(0xFFCC7861),
+                            fontSize = 25.sp
+                        )
+                        Row {
+                            IconButton(
+                                onClick = {},
+                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
+                                modifier = Modifier
+                                    .size(25.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Favorite,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp)
+                                )
+                            }
+                            Spacer(Modifier.width(10.dp))
+                            IconButton(
+                                onClick = {},
+                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
+                                modifier = Modifier
+                                    .size(25.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp)
+                                )
+                            }
                         }
                     }
-
+                    Spacer(Modifier.height(8.dp))
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Text(
+                            text = "User Review",
+                            fontSize = 15.sp
+                        )
+                        Row {
+                            for (i in 1..5) {
+                                Icon(
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = ""
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
-
-
 }
 
 @Composable
 fun AddToCartButton(modifier: Modifier = Modifier) {
     Button(
         onClick = {},
+        colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
         modifier = modifier
             .fillMaxWidth()
             .height(55.dp)

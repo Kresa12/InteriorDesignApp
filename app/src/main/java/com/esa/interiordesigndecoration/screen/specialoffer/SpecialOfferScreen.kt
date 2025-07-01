@@ -57,40 +57,29 @@ import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 @Composable
 fun SpecialOfferScreen(
     modifier: Modifier = Modifier,
-//    onProductClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
     navController: NavController
 ) {
-
     var selectedCategory by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-
         Spacer(Modifier.height(60.dp))
-
         TopBarSpecialOffer(onBackClicked = onBackClicked)
-
-        Spacer(Modifier.height(10.dp))
-
-        Category(onCategorySelected = {selectedCategory = it})
-
         Spacer(Modifier.height(25.dp))
-
+        Category(onCategorySelected = {selectedCategory = it})
+        Spacer(Modifier.height(35.dp))
         CardProduct(navController = navController, selectedCategory = selectedCategory)
     }
 }
-
 
 @Composable
 fun TopBarSpecialOffer(
     modifier: Modifier = Modifier,
     onBackClicked : () -> Unit = {}
 ) {
-
     Row(
         modifier = modifier
             .padding(horizontal = 20.dp)
@@ -119,51 +108,54 @@ fun TopBarSpecialOffer(
     }
 }
 
-
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
-//    selectedCategory: String,
     onCategorySelected: (String) -> Unit,
-    viewModel: CategoryViewModel = viewModel()) {
+    viewModel: CategoryViewModel = viewModel()
+) {
     val category = viewModel.category.collectAsState()
     val categoryList = category.value
-
-    val onFatch = viewModel.fetchCategory()
-
-    Row (
+    var selected by remember { mutableStateOf("") }
+    LaunchedEffect(categoryList) {
+        if (categoryList.isNotEmpty() && selected.isEmpty()) {
+            selected = categoryList[0].name
+            onCategorySelected(selected)
+        }
+    }
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-    ){
-//        LaunchedEffect(Unit) {
-//            return@LaunchedEffect onFatch
-//        }
-
-
-        var selected by remember { mutableStateOf("") }
-
-        LaunchedEffect(categoryList) {
-            if (categoryList.isNotEmpty() && selected.isEmpty()) {
-                selected = categoryList[0].name
-                onCategorySelected(selected)
-            }
-        }
-        LazyRow (
-            horizontalArrangement = Arrangement.spacedBy(21.dp)
-        ){
-            items(categoryList){
-                val isSelected = it.name == selected
-                Text(
-                    text = "${it.name}      |",
-                    color = if(isSelected) Color(0xFFCC7861) else Color(0xFFDCBEB6),
-                    fontSize = 22.sp,
-                    modifier = Modifier
-                        .clickable {
-                            selected = it.name
-                            onCategorySelected(it.name)
-                        }
-                )
+    ) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
+            items(categoryList.size) { index ->
+                val item = categoryList[index]
+                val isSelected = item.name == selected
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.name,
+                        color = if (isSelected) Color(0xFFCC7861) else Color(0xFFF4B5A4),
+                        fontSize = 22.sp,
+                        modifier = Modifier
+                            .clickable {
+                                selected = item.name
+                                onCategorySelected(item.name)
+                            }
+                    )
+                    if (index != categoryList.lastIndex) {
+                        Text(
+                            text = " | ",
+                            fontSize = 22.sp,
+                            color = Color(0xFFE0AFA0),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                    }
+                }
             }
         }
     }
@@ -181,9 +173,7 @@ fun CardProduct(
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onFetch = viewModel.fetchProduct()
-
-    val tes = productList.filter { it.categoryName == selectedCategory }
-
+    val productFilter = productList.filter { it.categoryName == selectedCategory }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -207,19 +197,16 @@ fun CardProduct(
                     text = "Loading..."
                 )
             }
-
         }
-
         LaunchedEffect(Unit) {
             return@LaunchedEffect onFetch
         }
-
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(tes){
+            items(productFilter){
                 Card(
                     colors = CardDefaults.cardColors(Color.White),
                     modifier = Modifier
@@ -255,7 +242,7 @@ fun CardProduct(
                         fontWeight = FontWeight.W300
                     )
 
-                    Spacer(Modifier.height(3.dp))
+                    Spacer(Modifier.height(8.dp))
 
                     HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
@@ -263,7 +250,7 @@ fun CardProduct(
                         color = Color.Gray
                     )
 
-                    Spacer(Modifier.height(3.dp))
+                    Spacer(Modifier.height(8.dp))
 
                     Row (
                         verticalAlignment = Alignment.CenterVertically,
@@ -276,7 +263,7 @@ fun CardProduct(
                             text = "$"+ it.price.toString(),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color(0xFFCC7861),
-                            fontSize = 14.sp
+                            fontSize = 17.sp
                         )
 
                         Row {
@@ -295,7 +282,7 @@ fun CardProduct(
                                         .padding(3.dp)
                                 )
                             }
-
+                            Spacer(modifier.width(5.dp))
                             IconButton(
                                 onClick = {},
                                 colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
@@ -325,9 +312,3 @@ fun CardProduct(
 
     }
 }
-
-//@Preview
-//@Composable
-//private fun SpecialOfferPrev() {
-//    SpecialOfferScreen()
-//}

@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
                         navController = navController
                     )
                 }
-                //sudah berhasil membuat detail screen, namun ketika product di klik product belum muncul di detail screen
                 composable("productDetail/{productId}"){backStackEntry ->
                     val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
                     if (productId != null){
