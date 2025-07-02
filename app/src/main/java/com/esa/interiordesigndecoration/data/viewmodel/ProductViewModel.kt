@@ -19,6 +19,9 @@ class ProductViewModel(private val repository: ProductRepository = ProductReposi
     private val _productByCategory = MutableStateFlow<List<ProductModel>>(emptyList())
     val productByCategory : StateFlow<List<ProductModel>> = _productByCategory
 
+    private val _productByRoom = MutableStateFlow<List<ProductModel>>(emptyList())
+    val productByRoom : StateFlow<List<ProductModel>> = _productByCategory
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading : StateFlow<Boolean> = _isLoading
 
@@ -72,6 +75,26 @@ class ProductViewModel(private val repository: ProductRepository = ProductReposi
                     val result = repository.getAllFurnishCategoryByCategoryName(categoryName)
                     categoryCache[categoryName] = result
                     _productByCategory.value = result
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+    private val roomCache = mutableMapOf<String, List<ProductModel>>()
+    fun getAllFurnishInRoomByRoomName(roomName: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val cached = roomCache[roomName]
+                if (cached != null) {
+                    _productByRoom.value = cached
+                } else {
+                    val result = repository.getAllFurnishInRoomByRoomName(roomName)
+                    roomCache[roomName] = result
+                    _productByRoom.value = result
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

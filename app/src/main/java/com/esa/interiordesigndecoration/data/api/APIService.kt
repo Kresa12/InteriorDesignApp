@@ -18,4 +18,7 @@ interface APIService {
 
     @GET("Furniture/GetAllFurnisInCategoryByCategoryName")
     suspend fun getAllFurnishCategoryByCategoryName(@Query("category") categoryName : String) : List<ProductModel>
+
+    @GET("Furniture/GetAllFurnisInRoomByRoomName")
+    suspend fun getAllFurnishInRoomByRoomName(@Query("room") roomName : String) : List<ProductModel>
 }

@@ -33,4 +33,5 @@
     <string name="reset_password_text_btn">Reset Password</string>
     <string name="special_offer">Special Offer</string>
     <string name="title_reset_password_screen">Reset Password</string>
+    <string name="topbar_bed_room_title">Bed Room</string>
 </resources>

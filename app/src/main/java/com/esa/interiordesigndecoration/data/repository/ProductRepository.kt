@@ -17,4 +17,8 @@ class ProductRepository(private val api : APIService = APIClient.apiService) {
     suspend fun getAllFurnishCategoryByCategoryName(categoryName : String) : List<ProductModel>{
         return api.getAllFurnishCategoryByCategoryName(categoryName = categoryName)
     }
+
+    suspend fun getAllFurnishInRoomByRoomName(roomName : String) : List<ProductModel>{
+        return api.getAllFurnishInRoomByRoomName(roomName = roomName)
+    }
 }

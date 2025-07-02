@@ -9,6 +9,8 @@ import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignUpScreen
 import com.esa.interiordesigndecoration.screen.setpassword.SetPasswordScreen
+import com.esa.interiordesigndecoration.screen.specialoffer.DetailProductScrenn
+import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 
 @Composable
@@ -32,5 +34,19 @@ fun AppNavigation() {
             onBackClicked = {navController.popBackStack()},
             onClickResetPasswordButton = {navController.navigate("login")}
         ) }
+
+        composable("product") {
+            SpecialOfferScreen(
+                onBackClicked = {},
+                navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
+            )
+        }
+        composable("productDetail/{productId}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: ""
+            DetailProductScrenn(
+                productId = productId,
+                onBackClicked = { navController.popBackStack() }
+            )
+        }
     }
 }

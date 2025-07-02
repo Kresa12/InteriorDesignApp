@@ -25,7 +25,7 @@ import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
-    onCategorySelected: (String) -> Unit,
+    onCategorySelected: (String) -> Unit = {},
     viewModel: CategoryViewModel = viewModel()
 ) {
     val category = viewModel.category.collectAsState()

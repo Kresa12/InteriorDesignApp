@@ -4,18 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
-import com.esa.interiordesigndecoration.screen.specialoffer.DetailProductScrenn
-import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
+import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,22 +16,13 @@ class MainActivity : ComponentActivity() {
         setContent {
 //            val navController = rememberNavController()
 //
-//            NavHost(navController = navController, startDestination = "product") {
-//                composable("product") {
-//                    SpecialOfferScreen(
-//                        onBackClicked = {},
-//                        navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
-//                    )
-//                }
-//                composable("productDetail/{productId}") { backStackEntry ->
-//                    val productId = backStackEntry.arguments?.getString("productId") ?: ""
-//                    DetailProductScrenn(
-//                        productId = productId,
-//                        onBackClicked = { navController.popBackStack() }
-//                    )
-//                }
+//            NavHost(navController = navController, startDestination = "bedRoom") {
+//                composable("bedRoom"){ BedRoomScreen(
+//                    onBackClicked = {navController.popBackStack()}
+//                ) }
 //            }
-            AppNavigation()
+            Tes()
+//            AppNavigation()
         }
     }
 }
