@@ -32,4 +32,5 @@
     <string name="set_password_text">Set Password</string>
     <string name="reset_password_text_btn">Reset Password</string>
     <string name="special_offer">Special Offer</string>
+    <string name="title_reset_password_screen">Reset Password</string>
 </resources>

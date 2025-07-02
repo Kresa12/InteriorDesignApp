@@ -109,7 +109,7 @@ fun DetailProductInformation(
     LaunchedEffect(productId) {
         return@LaunchedEffect onGetProductByIdFetch
     }
-    if (isLoading){
+    if (isLoading) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -123,8 +123,8 @@ fun DetailProductInformation(
                 trackColor = Color(0xFFFAF0E6),
             )
         }
-    }else{
-        productDetail?.let{
+    } else {
+        productDetail?.let {
             Column(
                 modifier = modifier
                     .padding(20.dp)
@@ -146,7 +146,7 @@ fun DetailProductInformation(
                     )
                 }
                 Spacer(Modifier.height(10.dp))
-                Column{
+                Column {
                     Text(
                         text = productDetail!!.name,
                         fontWeight = FontWeight.Bold,
@@ -208,12 +208,12 @@ fun DetailProductInformation(
                         }
                     }
                     Spacer(Modifier.height(8.dp))
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
-                    ){
+                    ) {
                         Text(
                             text = "User Review",
                             fontSize = 15.sp

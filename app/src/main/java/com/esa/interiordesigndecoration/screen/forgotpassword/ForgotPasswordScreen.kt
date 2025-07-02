@@ -14,7 +14,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,30 +26,31 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
-import com.esa.interiordesigndecoration.component.TopBarForgotPassword
+import com.esa.interiordesigndecoration.component.TopBar
 
 @Composable
 fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
-    navController: NavController? = null
+    onBackClicked : () -> Unit = {},
+    onClickButtonNext : () -> Unit = {}
     ) {
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-    ){
+    ) {
         Spacer(Modifier.height(60.dp))
 
-        if (navController != null){
-            TopBarForgotPassword(
-                navController = navController,
-                modifier = Modifier
-                    .width(310.dp)
-                    .padding(20.dp)
-            )
-        }
+
+        TopBar(
+            onBackClicked = onBackClicked,
+            topBarTitle = stringResource(R.string.title_reset_password_screen),
+            modifier = Modifier
+                .width(310.dp)
+                .padding(20.dp)
+        )
+
 
         Spacer(Modifier.height(20.dp))
 
@@ -83,10 +83,10 @@ fun ForgotPasswordScreen(
 
             Spacer(Modifier.height(50.dp))
 
-            Column (
+            Column(
                 modifier = Modifier
                     .width(313.dp)
-            ){
+            ) {
 
                 Text(
                     text = "Enter Yor Email Address",
@@ -119,7 +119,7 @@ fun ForgotPasswordScreen(
             Column {
                 Button(
                     onClick = {
-                        navController?.navigate("setPassword")
+                        onClickButtonNext()
                     },
                     colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
                     modifier = Modifier

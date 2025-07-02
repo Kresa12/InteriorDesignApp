@@ -35,31 +35,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.esa.interiordesigndecoration.R
-import com.esa.interiordesigndecoration.component.TopBarSetPassword
+import com.esa.interiordesigndecoration.component.TopBar
 
 @Composable
 fun SetPasswordScreen(
     modifier: Modifier = Modifier,
-    onBackClicked : () -> Unit = {},
-    onClickResetPasswordButton : () -> Unit = {}
+    onBackClicked: () -> Unit = {},
+    onClickResetPasswordButton: () -> Unit = {}
 ) {
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-
         Spacer(Modifier.height(60.dp))
-
-        TopBarSetPassword(
-        onBackClicked = onBackClicked,
+        TopBar(
+            onBackClicked = onBackClicked,
+            topBarTitle = stringResource(R.string.title_reset_password_screen),
             modifier = Modifier
-                .width(230.dp)
+                .fillMaxWidth()
         )
-
         Spacer(Modifier.height(20.dp))
-
         Text(
             text = stringResource(R.string.change_the_password),
             fontWeight = FontWeight.Bold,
@@ -67,21 +63,15 @@ fun SetPasswordScreen(
             modifier = Modifier
                 .padding(start = 40.dp)
         )
-
         Spacer(Modifier.height(10.dp))
-
         Text(
             text = stringResource(R.string.forgot_pass_desc),
             modifier = Modifier
                 .padding(start = 40.dp, end = 40.dp)
         )
-
         Spacer(Modifier.height(50.dp))
-
         SetPasswordForm()
-
         Spacer(Modifier.height(35.dp))
-
         ButtonSetPassword(onClickResetPasswordButton = onClickResetPasswordButton)
     }
 }
@@ -93,15 +83,15 @@ fun SetPasswordForm(modifier: Modifier = Modifier) {
     var valueConfirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-    ){
-        Column (
+    ) {
+        Column(
             modifier = Modifier
                 .width(313.dp)
-        ){
+        ) {
             Text(
                 text = stringResource(R.string.password_text_login),
                 fontSize = 17.sp
@@ -111,13 +101,14 @@ fun SetPasswordForm(modifier: Modifier = Modifier) {
 
             OutlinedTextField(
                 value = valuePassword,
-                onValueChange = {valuePassword = it},
+                onValueChange = { valuePassword = it },
                 shape = RoundedCornerShape(27.dp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     val desc = if (passwordVisible) "Hide password" else "Show password"
-                    IconButton(onClick = {passwordVisible = !passwordVisible}) {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             imageVector = icon,
                             contentDescription = desc,
@@ -141,10 +132,10 @@ fun SetPasswordForm(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(10.dp))
 
-        Column (
+        Column(
             modifier = Modifier
                 .width(313.dp)
-        ){
+        ) {
             Text(
                 text = stringResource(R.string.signup_text_confirm_password),
                 fontSize = 17.sp
@@ -154,11 +145,12 @@ fun SetPasswordForm(modifier: Modifier = Modifier) {
 
             OutlinedTextField(
                 value = valueConfirmPassword,
-                onValueChange = {valueConfirmPassword = it},
+                onValueChange = { valueConfirmPassword = it },
                 shape = RoundedCornerShape(27.dp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     val desc = if (passwordVisible) "Hide password" else "Show password"
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
@@ -187,7 +179,7 @@ fun SetPasswordForm(modifier: Modifier = Modifier) {
 @Composable
 fun ButtonSetPassword(
     modifier: Modifier = Modifier,
-    onClickResetPasswordButton : () -> Unit = {}
+    onClickResetPasswordButton: () -> Unit = {}
 ) {
 
     Column(

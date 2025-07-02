@@ -21,7 +21,7 @@ import com.esa.interiordesigndecoration.R
 @Composable
 fun ButtonLoginAndForgetPasswordUI(
     modifier: Modifier = Modifier,
-    navController: NavController
+    forgotPassword : () -> Unit = {}
 ) {
     Column (
         modifier = modifier
@@ -46,7 +46,7 @@ fun ButtonLoginAndForgetPasswordUI(
             text = stringResource(R.string.forget_password_text),
             modifier = Modifier
                 .clickable {
-                    navController.navigate("forgotPassword")
+                    forgotPassword()
                 }
         )
     }
