@@ -1,7 +1,6 @@
 package com.esa.interiordesigndecoration.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,29 +27,50 @@ fun Category(
     onCategorySelected: (String) -> Unit = {},
     viewModel: CategoryViewModel = viewModel()
 ) {
-    val category = viewModel.category.collectAsState()
-    val categoryList = category.value
+    val category by viewModel.category.collectAsState()
     var selected by remember { mutableStateOf("") }
+    val fetch = viewModel.fetchCategory()
+    LaunchedEffect(selected) {
+        if (selected.isEmpty()){
+            selected = "All"
+            onCategorySelected("All")
+        }
+        return@LaunchedEffect fetch
+    }
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
     ) {
-        LaunchedEffect(categoryList) {
-            if (categoryList.isNotEmpty() && selected.isEmpty()) {
-                selected = categoryList[0].name
-                onCategorySelected(selected)
-            }
-        }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(0.dp)
-        ) {
-            items(categoryList.size) { index ->
-                val item = categoryList[index]
+        val tos = selected == "All"
+        LazyRow{
+            items(category.size){index ->
+                val item = category[index]
                 val isSelected = item.name == selected
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    if (index == 0){
+                        Text(
+                            text = "All",
+                            color = if (tos) Color(0xFFCC7861) else Color(0xFFF4B5A4),
+                            fontSize = 22.sp,
+                            modifier = Modifier
+                                .clickable {
+                                    selected = "All"
+                                    onCategorySelected("All")
+                                }
+                        )
+                    }
+//                    Spacer(Modifier.width(10.dp))
+                    if (index != category.lastIndex + 1) {
+                        Text(
+                            text = " | ",
+                            fontSize = 22.sp,
+                            color = Color(0xFFE0AFA0),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                    }
                     Text(
                         text = item.name,
                         color = if (isSelected) Color(0xFFCC7861) else Color(0xFFF4B5A4),
@@ -61,14 +81,6 @@ fun Category(
                                 onCategorySelected(item.name)
                             }
                     )
-                    if (index != categoryList.lastIndex) {
-                        Text(
-                            text = " | ",
-                            fontSize = 22.sp,
-                            color = Color(0xFFE0AFA0),
-                            modifier = Modifier.padding(horizontal = 8.dp)
-                        )
-                    }
                 }
             }
         }
