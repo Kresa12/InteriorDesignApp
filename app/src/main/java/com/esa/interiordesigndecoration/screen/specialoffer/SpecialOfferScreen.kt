@@ -13,9 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.esa.interiordesigndecoration.component.CardProductList
+import com.esa.interiordesigndecoration.component.CardProductListAll
 import com.esa.interiordesigndecoration.component.Category
-import com.esa.interiordesigndecoration.component.TopBar
 import com.esa.interiordesigndecoration.component.TopBarHome
 
 @Composable
@@ -24,7 +23,7 @@ fun SpecialOfferScreen(
     onBackClicked: () -> Unit = {},
     navigateToDetailProduct : (Int) -> Unit = {}
 ) {
-    var selectedCategory by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf("All") }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -35,6 +34,6 @@ fun SpecialOfferScreen(
         Spacer(Modifier.height(25.dp))
         Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductList(navigateToDetailProduct = navigateToDetailProduct, selectedCategory = selectedCategory)
+        CardProductListAll(navigateToDetailProduct = navigateToDetailProduct, selectedCategory = selectedCategory)
     }
 }

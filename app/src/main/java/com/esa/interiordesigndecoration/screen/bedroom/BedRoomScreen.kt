@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.CardProductListByRoom
+import com.esa.interiordesigndecoration.component.Category
 import com.esa.interiordesigndecoration.component.TopBarHome
 
 @Composable
@@ -25,7 +26,7 @@ fun BedRoomScreen(
     onBackClicked : () -> Unit = {}
 ) {
     val selectedRoom by remember{ mutableStateOf("BedRoom") }
-
+    var selectedCategory by remember { mutableStateOf("") }
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -37,9 +38,9 @@ fun BedRoomScreen(
             topBarTitle = stringResource(R.string.topbar_bed_room_title)
         )
         Spacer(Modifier.height(25.dp))
-//        Category(onCategorySelected = { selectedCategory = it })
+        Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductListByRoom(selectedRoom = selectedRoom)
+        CardProductListByRoom(selectedRoom = selectedRoom, selectedCategory = selectedCategory)
     }
 }
 

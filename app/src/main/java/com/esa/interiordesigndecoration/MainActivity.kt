@@ -14,14 +14,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-//            val navController = rememberNavController()
-//
-//            NavHost(navController = navController, startDestination = "bedRoom") {
-//                composable("bedRoom"){ BedRoomScreen(
-//                    onBackClicked = {navController.popBackStack()}
-//                ) }
-//            }
-            Tes()
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "bedRoom") {
+                composable("bedRoom"){ BedRoomScreen(
+                    onBackClicked = {navController.popBackStack()}
+                ) }
+            }
+//            Tes()
 //            AppNavigation()
         }
     }

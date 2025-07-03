@@ -20,7 +20,7 @@ class ProductViewModel(private val repository: ProductRepository = ProductReposi
     val productByCategory : StateFlow<List<ProductModel>> = _productByCategory
 
     private val _productByRoom = MutableStateFlow<List<ProductModel>>(emptyList())
-    val productByRoom : StateFlow<List<ProductModel>> = _productByCategory
+    val productByRoom : StateFlow<List<ProductModel>> = _productByRoom
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading : StateFlow<Boolean> = _isLoading

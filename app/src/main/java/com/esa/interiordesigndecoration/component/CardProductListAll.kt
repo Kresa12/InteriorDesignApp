@@ -44,7 +44,7 @@ import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
 @Composable
-fun CardProductList(
+fun CardProductListAll(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
     navigateToDetailProduct : (Int) -> Unit = {},

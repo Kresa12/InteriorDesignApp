@@ -48,13 +48,15 @@ fun CardProductListByRoom(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = viewModel(),
     navigateToDetailProduct : (Int) -> Unit = {},
-    selectedRoom : String
+    selectedRoom : String,
+    selectedCategory : String
 ) {
     val productByRoom by viewModel.productByRoom.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onGetALlFurnishInRoomByRoomName = viewModel.getAllFurnishInRoomByRoomName(roomName = selectedRoom)
-    LaunchedEffect(selectedRoom) {
+    val filterProductByCategory = productByRoom.filter { it.categoryName == selectedCategory}
+    LaunchedEffect(Unit) {
         return@LaunchedEffect onGetALlFurnishInRoomByRoomName
     }
     Column(
@@ -81,100 +83,119 @@ fun CardProductListByRoom(
                 )
             }
         }
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            items(productByRoom){
-                Card(
-                    colors = CardDefaults.cardColors(Color.White),
-                    modifier = Modifier
-                        .clickable { navigateToDetailProduct(it.id)}
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
+        if (filterProductByCategory.isNotEmpty()){
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                items(filterProductByCategory){
+                    Card(
+                        colors = CardDefaults.cardColors(Color.White),
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)
-                            .background(Color(0xFFFAF0E6))
-                    ){
-                        AsyncImage(
-                            model = it.pictureUrl,
-                            contentDescription = "product",
-                            contentScale = ContentScale.FillBounds
-                        )
-                    }
-                    Spacer(Modifier.height(7.dp))
-                    Text(
-                        text = it.name,
-                        color = Color(0xFFF4B5A4),
-                        fontSize = 16.sp
-                    )
-                    Text(
-                        text = it.description,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.W300
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 0.5.dp,
-                        color = Color.Gray
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Row (
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
-                    ){
+                            .clickable { navigateToDetailProduct(it.id)}
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                                .background(Color(0xFFFAF0E6))
+                        ){
+                            AsyncImage(
+                                model = it.pictureUrl,
+                                contentDescription = "product",
+                                contentScale = ContentScale.FillBounds
+                            )
+                        }
+                        Spacer(Modifier.height(7.dp))
                         Text(
-                            text = "$"+ it.price.toString(),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color(0xFFCC7861),
-                            fontSize = 17.sp
+                            text = it.name,
+                            color = Color(0xFFF4B5A4),
+                            fontSize = 16.sp
                         )
-                        Row {
-                            IconButton(
-                                onClick = {},
-                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
-                                modifier = Modifier
-                                    .size(20.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Favorite,
-                                    contentDescription = null,
-                                    tint = Color.White,
+                        Text(
+                            text = it.description,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.W300
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 0.5.dp,
+                            color = Color.Gray
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 3.dp, end = 3.dp, bottom = 5.dp)
+                        ){
+                            Text(
+                                text = "$"+ it.price.toString(),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = Color(0xFFCC7861),
+                                fontSize = 17.sp
+                            )
+                            Row {
+                                IconButton(
+                                    onClick = {},
+                                    colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(3.dp)
-                                )
-                            }
-                            Spacer(modifier.width(5.dp))
-                            IconButton(
-                                onClick = {},
-                                colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
-                                modifier = Modifier
-                                    .size(20.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = null,
-                                    tint = Color.White,
+                                        .size(20.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Favorite,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(3.dp)
+                                    )
+                                }
+                                Spacer(modifier.width(5.dp))
+                                IconButton(
+                                    onClick = {},
+                                    colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(3.dp)
-                                )
+                                        .size(20.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(3.dp)
+                                    )
+                                }
                             }
                         }
+                        Text(
+                            text = it.roomName
+                        )
+                        Text(
+                            text = it.categoryName
+                        )
                     }
-                    Text(
-                        text = it.categoryName
-                    )
                 }
             }
+        }else{
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ){
+                Text(
+                    text = "Tidak ada product di kategori ini",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray
+                )
+            }
         }
+
     }
 }
