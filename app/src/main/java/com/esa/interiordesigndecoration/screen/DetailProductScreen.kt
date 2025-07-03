@@ -1,4 +1,4 @@
-package com.esa.interiordesigndecoration.screen.specialoffer
+package com.esa.interiordesigndecoration.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

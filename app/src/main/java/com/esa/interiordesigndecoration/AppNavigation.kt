@@ -9,7 +9,7 @@ import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignUpScreen
 import com.esa.interiordesigndecoration.screen.setpassword.SetPasswordScreen
-import com.esa.interiordesigndecoration.screen.specialoffer.DetailProductScrenn
+import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 

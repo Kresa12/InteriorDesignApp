@@ -23,7 +23,8 @@ import com.esa.interiordesigndecoration.component.TopBarHome
 @Composable
 fun BedRoomScreen(
     modifier: Modifier = Modifier,
-    onBackClicked : () -> Unit = {}
+    onBackClicked : () -> Unit = {},
+    navigateToDetailProduct : (Int) -> Unit = {}
 ) {
     val selectedRoom by remember{ mutableStateOf("BedRoom") }
     var selectedCategory by remember { mutableStateOf("") }
@@ -40,7 +41,7 @@ fun BedRoomScreen(
         Spacer(Modifier.height(25.dp))
         Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductListByRoom(selectedRoom = selectedRoom, selectedCategory = selectedCategory)
+        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory)
     }
 }
 
