@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -62,14 +63,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomePageScreen(
     modifier: Modifier = Modifier,) {
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
         Spacer(Modifier.height(60.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -88,56 +87,41 @@ fun HomePageScreen(
                         fontSize = 23.sp,
                         fontWeight = FontWeight.SemiBold
                     )
-
                     Text(
                         text = "Create spaces that bring joy"
                     )
                 }
-
                 Search()
-
             }
-
             BannerSlider()
-
             Spacer(Modifier.height(15.dp))
-
             Categories()
-
             Spacer(Modifier.height(15.dp))
-
             BestSeller()
-
             Spacer(Modifier.height(15.dp))
-
             NewCollection()
         }
-
     }
-
 }
 
 @Composable
 fun BannerSlider(modifier: Modifier = Modifier) {
-
     val bannerImage = listOf(
         R.drawable.benner,
         R.drawable.benner,
         R.drawable.benner,
         R.drawable.benner
     )
-
     val pagerState = rememberPagerState(pageCount = {bannerImage.size})
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(pagerState) {
         while (true){
-            delay(3000)
+            delay(8000)
             val nextPage = (pagerState.currentPage + 1) % bannerImage.size
             pagerState.animateScrollToPage(nextPage)
         }
     }
-
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -157,14 +141,12 @@ fun BannerSlider(modifier: Modifier = Modifier) {
                     .fillMaxSize()
             )
         }
-
         Row (
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
         ){
-
             //repeat sama aja dengan bannerImage.forEachIndexed{index, _ ->}
             repeat(bannerImage.size){
                 val isSelected = it == pagerState.currentPage
@@ -183,13 +165,11 @@ fun BannerSlider(modifier: Modifier = Modifier) {
                 )
             }
         }
-
     }
 }
 
 @Composable
 fun Categories(modifier: Modifier = Modifier) {
-
     Column (
         modifier = modifier
             .fillMaxWidth()
@@ -200,10 +180,7 @@ fun Categories(modifier: Modifier = Modifier) {
             color = Color(0xFFB45A4A),
             fontSize = 14.sp
         )
-        //tinggal dibenarkan pemarnaan saja
-
         Spacer(Modifier.height(10.dp))
-
         val listCategories : List<RoomNameModel> = listOf(
             RoomNameModel(R.drawable.categorybedroom),
             RoomNameModel(R.drawable.categorydiningroom),
@@ -216,14 +193,11 @@ fun Categories(modifier: Modifier = Modifier) {
             RoomNameModel(R.drawable.categorylivingroom),
             RoomNameModel(R.drawable.categoryoffice)
         )
-
         var selected by remember { mutableStateOf(listCategories[0]) }
-
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ){
             items(listCategories){
-
                 val isSelected = it == selected
                 Box(
                     modifier = Modifier
@@ -257,9 +231,7 @@ fun BestSeller(modifier: Modifier = Modifier) {
             color = Color(0xFFB45A4A),
             fontSize = 14.sp
         )
-
         Spacer(Modifier.height(10.dp))
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -280,16 +252,12 @@ fun BestSeller(modifier: Modifier = Modifier) {
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
-
                     Spacer(modifier = Modifier.height(4.dp))
-
                     Text(
                         text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                         style = MaterialTheme.typography.bodySmall
                     )
-
                     Spacer(modifier = Modifier.height(12.dp))
-
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Row(
                             modifier = Modifier
@@ -306,9 +274,7 @@ fun BestSeller(modifier: Modifier = Modifier) {
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(text = "4.5")
                         }
-
                         Spacer(modifier = Modifier.width(8.dp))
-
                         Box(
                             modifier = Modifier
                                 .background(Color.White, shape = RoundedCornerShape(16.dp))
@@ -319,9 +285,6 @@ fun BestSeller(modifier: Modifier = Modifier) {
                         }
                     }
                 }
-
-//                Spacer(modifier = Modifier.width(16.dp))
-
                 Image(
                     painter = painterResource(R.drawable.kitchen6),
                     contentDescription = "best seller",
@@ -336,7 +299,6 @@ fun BestSeller(modifier: Modifier = Modifier) {
 
 @Composable
 fun NewCollection(modifier: Modifier = Modifier) {
-
     val cardProductList = listOf(
         CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
         CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
@@ -358,9 +320,7 @@ fun NewCollection(modifier: Modifier = Modifier) {
             color = Color(0xFFB45A4A),
             fontSize = 14.sp
         )
-
         Spacer(Modifier.height(10.dp))
-
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -385,31 +345,24 @@ fun NewCollection(modifier: Modifier = Modifier) {
                                 .size(110.dp)
                         )
                     }
-
                     Spacer(Modifier.height(7.dp))
-
                     Text(
                         text = it.nameProduct,
                         color = Color(0xFFF4B5A4),
                         fontSize = 16.sp
                     )
-
                     Text(
                         text = it.descriptionProduct,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300
                     )
-
                     Spacer(Modifier.height(3.dp))
-
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.Gray,
                         thickness = 0.5.dp
                     )
-
                     Spacer(Modifier.height(3.dp))
-
                     Row (
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -423,7 +376,6 @@ fun NewCollection(modifier: Modifier = Modifier) {
                             color = Color(0xFFCC7861),
                             fontSize = 14.sp
                         )
-
                         Row {
                             IconButton(
                                 onClick = {},
@@ -440,7 +392,6 @@ fun NewCollection(modifier: Modifier = Modifier) {
                                         .padding(3.dp)
                                 )
                             }
-
                             IconButton(
                                 onClick = {},
                                 colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
@@ -457,16 +408,12 @@ fun NewCollection(modifier: Modifier = Modifier) {
                                 )
                             }
                         }
-
                     }
-
                 }
             }
         }
-
     }
 }
-
 
 @Preview
 @Composable
