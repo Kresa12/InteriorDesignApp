@@ -35,4 +35,5 @@
     <string name="title_reset_password_screen">Reset Password</string>
     <string name="topbar_bed_room_title">Bed Room</string>
     <string name="topbar_living_room_title">Living Room</string>
+    <string name="topbar_kitchen_title">Kitchen Room</string>
 </resources>
