@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
+import com.esa.interiordesigndecoration.screen.bathroom.BathRoom
 import com.esa.interiordesigndecoration.screen.kitchenroom.Kitchen
 import com.esa.interiordesigndecoration.screen.livingroom.LivingRoomScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = "kitchen") {
+            NavHost(navController = navController, startDestination = "bathroom") {
                 composable("bedRoom"){ BedRoomScreen(
                     onBackClicked = {navController.popBackStack()},
                     navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
@@ -33,6 +34,12 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("kitchen") {
                     Kitchen(
+                        onBackClicked = {},
+                        navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
+                    )
+                }
+                composable("bathroom") {
+                    BathRoom(
                         onBackClicked = {},
                         navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
                     )
