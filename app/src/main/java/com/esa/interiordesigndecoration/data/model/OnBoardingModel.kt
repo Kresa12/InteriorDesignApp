@@ -8,7 +8,7 @@ data class OnBoardingModel(
     val descriptionPage : String
 )
 
-object Onboarding{
+object OnBoardingObject{
     val onBoardingPageList = listOf(
         OnBoardingModel(R.drawable.onboarding1, "Confortable Space", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "),
         OnBoardingModel(R.drawable.onboarding2, "Modern Design", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "),
