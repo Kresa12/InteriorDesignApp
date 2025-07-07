@@ -10,6 +10,8 @@ import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignUpScreen
 import com.esa.interiordesigndecoration.screen.setpassword.SetPasswordScreen
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
+import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
+import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 
@@ -34,7 +36,11 @@ fun AppNavigation() {
             onBackClicked = {navController.popBackStack()},
             onClickResetPasswordButton = {navController.navigate("login")}
         ) }
-
+        composable("onBoarding"){ OnBoardingScreen(
+            onClick = {navController.navigate("homePage")}
+        ) }
+        composable("homePage"){ HomePageScreen(
+        ) }
         composable("product") {
             SpecialOfferScreen(
                 onBackClicked = {},

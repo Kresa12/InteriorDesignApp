@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
-
+    onClick: () -> Unit = {}
 ) {
     val pages = listOf(
         OnBoardingModel.First,
@@ -66,7 +66,7 @@ fun OnBoardingScreen(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(top = 20.dp, end = 15.dp)
+                        .padding(top = 40.dp, end = 15.dp)
                 ){
                     SkipButton(
                         modifier = Modifier
@@ -122,6 +122,9 @@ fun OnBoardingScreen(
                 onClick = {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                    if (pagerState.currentPage == 3){
+                        onClick()
                     }
                 }
             )

@@ -10,19 +10,24 @@ import androidx.navigation.compose.rememberNavController
 import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.bathroom.BathRoom
+import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
 import com.esa.interiordesigndecoration.screen.kitchenroom.Kitchen
 import com.esa.interiordesigndecoration.screen.livingroom.LivingRoomScreen
 import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val auth = Firebase.auth
         setContent {
-//            val navController = rememberNavController()
+            val navController = rememberNavController()
 //
-//            NavHost(navController = navController, startDestination = "bathroom") {
+            NavHost(navController = navController, startDestination = "onBoarding") {
 //                composable("bedRoom"){ BedRoomScreen(
 //                    onBackClicked = {navController.popBackStack()},
 //                    navigateToDetailProduct = {navController.navigate("productDetail/${it}")}
@@ -58,10 +63,16 @@ class MainActivity : ComponentActivity() {
 //                        onBackClicked = { navController.popBackStack() }
 //                    )
 //                }
-//            }
+                composable("onBoarding"){ OnBoardingScreen(
+                    onClick = {navController.navigate("homePage")}
+                ) }
+                composable("homePage"){ HomePageScreen(
+
+                ) }
+            }
 //            Tes()
 //            AppNavigation()
-            OnBoardingScreen()
+//            OnBoardingScreen()
         }
     }
 }
