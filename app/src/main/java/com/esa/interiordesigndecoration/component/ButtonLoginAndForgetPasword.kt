@@ -17,11 +17,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
+import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 
 @Composable
 fun ButtonLoginAndForgetPasswordUI(
     modifier: Modifier = Modifier,
-    forgotPassword : () -> Unit = {}
+    email : String,
+    password : String,
+    forgotPassword : () -> Unit = {},
+    authViewModel: AuthViewModel = AuthViewModel()
 ) {
     Column (
         modifier = modifier
@@ -29,7 +33,9 @@ fun ButtonLoginAndForgetPasswordUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Button(
-            onClick = { },
+            onClick = {
+                authViewModel.login(email = email, password = password)
+            },
             colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
             modifier = Modifier
                 .width(180.dp)

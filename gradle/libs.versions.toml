@@ -16,6 +16,8 @@ material3 = "1.2.1"
 materialIconsExtended = "1.5.12"
 navigationCompose = "2.7.7"
 protoliteWellKnownTypes = "18.0.1"
+runtimeLivedata = "1.8.3"
+firebaseAuth = "23.2.1"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerIndicators" }
@@ -41,6 +43,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 protolite-well-known-types = { group = "com.google.firebase", name = "protolite-well-known-types", version.ref = "protoliteWellKnownTypes" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

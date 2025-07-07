@@ -26,6 +26,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,13 +40,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.data.model.OnBoardingModel
+import com.esa.interiordesigndecoration.data.viewmodel.AuthState
+import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    navController: NavController,
+    authViewModel: AuthViewModel
 ) {
+//    val authState = authViewModel.authState.observeAsState()
+//    LaunchedEffect(authState.value) {
+//        when(authState.value){
+//            is AuthState.Authenticated -> navController.navigate("homePage")
+//            else -> Unit
+//        }
+//    }
     val pages = listOf(
         OnBoardingModel.First,
         OnBoardingModel.Second,
@@ -280,13 +294,13 @@ fun NextButton(
 //    }
 //}
 
-@Preview(showBackground = true)
-@Composable
-private fun WelcomePrev() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        OnBoardingScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun WelcomePrev() {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//    ) {
+//        OnBoardingScreen()
+//    }
+//}

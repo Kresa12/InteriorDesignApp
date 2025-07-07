@@ -1,4 +1,4 @@
-package com.esa.interiordesigndecoration.screen.login
+package com.esa.interiordesigndecoration.screen.sIgnup
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -21,9 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.TopBar
@@ -31,12 +29,12 @@ import com.esa.interiordesigndecoration.data.viewmodel.AuthState
 import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(
+fun SignupScreen(
     navController: NavController,
     authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("")}
     val authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
     LaunchedEffect(authState.value) {
@@ -55,26 +53,12 @@ fun LoginScreen(
     ) {
         TopBar(
             onBackClicked = {},
-            topBarTitle = stringResource(R.string.title_log_in_screen),
+            topBarTitle = stringResource(R.string.topbar_signup_title),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp)
         )
         Spacer(Modifier.height(45.dp))
-        Column(
-            modifier = Modifier
-                .padding(start = 40.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.welcome_text_login),
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.login_text_screen)
-            )
-        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -90,16 +74,13 @@ fun LoginScreen(
             )
             Button(
                 onClick = {
-                    authViewModel.login(email = email, password = password)
+                    authViewModel.signup(email = email, password = password)
                 }
             ) {
                 Text(
-                    text = stringResource(R.string.login_button_text)
+                    text = stringResource(R.string.btn_sig_up_text)
                 )
             }
-            Text(
-                text = stringResource(R.string.forget_password_text)
-            )
         }
     }
 }
