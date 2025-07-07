@@ -1,2 +1,6 @@
-/build
+# Ignore build folders
+/build/
+**/build/
+
+# Ignore Firebase config file
 app/google-services.json
