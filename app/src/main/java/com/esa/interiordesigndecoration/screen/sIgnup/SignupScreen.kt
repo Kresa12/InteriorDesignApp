@@ -1,14 +1,30 @@
 package com.esa.interiordesigndecoration.screen.sIgnup
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,9 +35,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.TopBar
@@ -34,51 +56,199 @@ fun SignupScreen(
     authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("")}
-    val authState = authViewModel.authState.observeAsState()
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
     LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Authenticated -> navController.navigate("onBoarding")
+        when (authState.value) {
+            is AuthState.Authenticated -> navController.navigate("onBoarding") {
+                popUpTo(0)
+            }
+
             is AuthState.Error -> Toast.makeText(
                 context,
                 (authState.value as AuthState.Error).message,
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
+
             else -> Unit
         }
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
     ) {
+        Spacer(Modifier.height(60.dp))
         TopBar(
-            onBackClicked = {},
-            topBarTitle = stringResource(R.string.topbar_signup_title),
+            onBackClicked = {
+
+            },
+            topBarTitle = stringResource(R.string.topbar_text_create_account),
             modifier = Modifier
-                .fillMaxWidth()
+                .width(300.dp)
                 .padding(start = 20.dp)
         )
-        Spacer(Modifier.height(45.dp))
+        Spacer(Modifier.height(40.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            TextField(
+            OutlinedTextField(
                 value = email,
-                onValueChange = {email = it}
+                onValueChange = { email = it },
+                shape = RoundedCornerShape(27.dp),
+                label = {
+                    Text(
+                        text = "email"
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedBorderColor = Color(0xFFFAF0E6),
+                ),
+                singleLine = true,
+                modifier = Modifier
+                    .width(330.dp)
+                    .height(65.dp)
             )
-            TextField(
+            Spacer(Modifier.height(30.dp))
+            OutlinedTextField(
                 value = password,
-                onValueChange = {password = it}
+                onValueChange = { password = it },
+                shape = RoundedCornerShape(27.dp),
+                label = {
+                    Text(
+                        text = "password"
+                    )
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val desc = if (passwordVisible) "Hide password" else "Show password"
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = desc,
+                            tint = if (passwordVisible) Color.Black else Color.Red
+                        )
+                    }
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedBorderColor = Color(0xFFFAF0E6),
+                ),
+                modifier = Modifier
+                    .width(330.dp)
+                    .height(65.dp),
+                singleLine = true
             )
+            Spacer(Modifier.height(30.dp))
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                shape = RoundedCornerShape(27.dp),
+                label = {
+                    Text(
+                        text = "confirm password"
+                    )
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val desc = if (passwordVisible) "Hide password" else "Show password"
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = desc,
+                            tint = if (passwordVisible) Color.Black else Color.Red
+                        )
+                    }
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedContainerColor = Color(0xFFFAF0E6),
+                    unfocusedBorderColor = Color(0xFFFAF0E6),
+                ),
+                modifier = Modifier
+                    .width(330.dp)
+                    .height(65.dp),
+                singleLine = true
+            )
+            Spacer(Modifier.height(50.dp))
             Button(
                 onClick = {
-                    authViewModel.signup(email = email, password = password)
-                }
+                    if (password != confirmPassword) {
+                        Toast.makeText(
+                            context,
+                            "confirm password is not the same with password",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        authViewModel.signup(email = email, password = confirmPassword)
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
+                enabled = authState.value != AuthState.Loading,
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(50.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.btn_sig_up_text)
+                    text = stringResource(R.string.signup_btn_sign_up)
+                )
+            }
+            Spacer(Modifier.height(173.dp))
+            Text(
+                text = stringResource(R.string.or_sign_up_with)
+            )
+            Spacer(Modifier.height(15.dp))
+            Row {
+                Image(
+                    painter = painterResource(R.drawable.facebookicon),
+                    contentDescription = "facebook icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+
+                        }
+                )
+
+                Spacer(Modifier.width(20.dp))
+
+                Image(
+                    painter = painterResource(R.drawable.googleicon),
+                    contentDescription = "google icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+
+                        }
+                )
+            }
+            Spacer(Modifier.height(20.dp))
+            Row {
+                Text(
+                    text = "Already have an account?",
+                    color = Color.Gray,
+                )
+
+                Spacer(Modifier.width(5.dp))
+
+                Text(
+                    text = "Login",
+                    color = Color(0xFFCC7861),
+                    modifier = Modifier
+                        .clickable {
+                            navController.navigate("login")
+                        }
                 )
             }
         }

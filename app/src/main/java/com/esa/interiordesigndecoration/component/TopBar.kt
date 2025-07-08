@@ -25,9 +25,7 @@ fun TopBar(
     topBarTitle : String
 ) {
     Row(
-        modifier = modifier
-            .padding(horizontal = 20.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ){
@@ -40,7 +38,6 @@ fun TopBar(
                     onBackClicked()
                 }
         )
-
         Text(
             text = topBarTitle,
             color = Color(0xFFF4B5A4),
