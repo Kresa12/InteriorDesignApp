@@ -3,6 +3,7 @@ package com.esa.interiordesigndecoration.data.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthViewModel : ViewModel(){
@@ -54,11 +55,13 @@ class AuthViewModel : ViewModel(){
                 }
             }
     }
+    
 
     fun signout(){
         auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }
+
 }
 
 sealed class AuthState{
