@@ -25,13 +25,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +49,10 @@ import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.TopBar
 import com.esa.interiordesigndecoration.data.viewmodel.AuthState
 import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
+import com.esa.interiordesigndecoration.data.viewmodel.AuthWithGoogle
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -60,6 +64,8 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
+    val authWithGoogle = remember { AuthWithGoogle(context) }
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(authState.value) {
         when(authState.value){
             is AuthState.Authenticated -> navController.navigate("onBoarding"){
@@ -207,7 +213,15 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-
+                            authWithGoogle.signInWIthGoogle()
+                                .onEach { respone ->
+                                    if (respone is AuthState.Authenticated){
+                                        navController.navigate("onBoarding"){
+                                            popUpTo(0)
+                                        }
+                                    }
+                                }
+                                .launchIn(coroutineScope)
                         }
                 )
             }
