@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,22 +62,20 @@ import com.esa.interiordesigndecoration.data.model.CardProductModel
 import com.esa.interiordesigndecoration.data.model.RoomNameModel
 import com.esa.interiordesigndecoration.data.viewmodel.AuthState
 import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
+import com.esa.interiordesigndecoration.data.viewmodel.AuthWithGoogle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomePageScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel
     ) {
-    val authState = authViewModel.authState.observeAsState()
-    LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Unauthenticated -> navController.navigate("launch")
-            else -> Unit
-        }
-    }
+    val context = LocalContext.current
+    val authWithGoogle = remember { AuthWithGoogle(context) }
+    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -94,7 +93,13 @@ fun HomePageScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        authViewModel.signout()
+                        authWithGoogle.signout()
+                            .onEach {respone ->
+                                if (respone is AuthState.Unauthenticated){
+                                    navController.navigate("login")
+                                }
+                            }
+                            .launchIn(coroutineScope)
                     }
             ){
                 Column {

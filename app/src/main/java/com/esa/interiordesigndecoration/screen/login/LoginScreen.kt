@@ -57,27 +57,27 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     navController: NavController,
-    authViewModel: AuthViewModel
+//    authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    val authState = authViewModel.authState.observeAsState()
+//    val authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
     val authWithGoogle = remember { AuthWithGoogle(context) }
     val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Authenticated -> navController.navigate("onBoarding"){
-                popUpTo(0)
-            }
-            is AuthState.Error -> Toast.makeText(
-                context,
-                (authState.value as AuthState.Error).message,
-                Toast.LENGTH_SHORT).show()
-            else -> Unit
-        }
-    }
+//    LaunchedEffect(authState.value) {
+//        when(authState.value){
+//            is AuthState.Authenticated -> navController.navigate("onBoarding"){
+//                popUpTo(0)
+//            }
+//            is AuthState.Error -> Toast.makeText(
+//                context,
+//                (authState.value as AuthState.Error).message,
+//                Toast.LENGTH_SHORT).show()
+//            else -> Unit
+//        }
+//    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -168,10 +168,19 @@ fun LoginScreen(
             Spacer(Modifier.height(50.dp))
             Button(
                 onClick = {
-                    authViewModel.login(email = email, password = password)
+//                    authViewModel.login(email = email, password = password)
+                    authWithGoogle.login(email = email, password = password)
+                        .onEach { respone ->
+                            if (respone is AuthState.Authenticated){
+                                navController.navigate("onBoarding"){
+                                    popUpTo(0)
+                                }
+                            }
+                        }
+                        .launchIn(coroutineScope)
                 },
                 colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
-                enabled = authState.value != AuthState.Loading,
+//                enabled = authState.value != AuthState.Loading,
                 modifier = Modifier
                     .width(180.dp)
                     .height(50.dp)
@@ -213,12 +222,17 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            authWithGoogle.signInWIthGoogle()
-                                .onEach { respone ->
-                                    if (respone is AuthState.Authenticated){
-                                        navController.navigate("onBoarding"){
+                            authWithGoogle.signInWIthGoogle().onEach { response ->
+                                    if (response is AuthState.Authenticated){
+                                        navController.navigate("homePage"){
                                             popUpTo(0)
                                         }
+                                    }else{
+                                        Toast.makeText(
+                                            context,
+                                            "Gagal Login",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }
                                 .launchIn(coroutineScope)

@@ -28,21 +28,25 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController, authViewModel: AuthViewModel
+    navController: NavHostController,
+//    authViewModel: AuthViewModel
 ) {
-    val authState = authViewModel.authState.observeAsState()
-    LaunchedEffect(authState.value) {
+//    val authState = authViewModel.authState.observeAsState()
+    LaunchedEffect(Unit) {
         delay(3000)
-
-        when (authState.value) {
-            is AuthState.Authenticated -> navController.navigate("homePage") {
-                popUpTo("splash") { inclusive = true }
-            }
-            is AuthState.Unauthenticated -> navController.navigate("launch") {
-                popUpTo("splash") { inclusive = true }
-            }
-            else -> Unit
+        navController.navigate("onBoarding"){
+            popUpTo("launch")
         }
+
+//        when (authState.value) {
+//            is AuthState.Authenticated -> navController.navigate("homePage") {
+//                popUpTo("splash") { inclusive = true }
+//            }
+//            is AuthState.Unauthenticated -> navController.navigate("launch") {
+//                popUpTo("splash") { inclusive = true }
+//            }
+//            else -> Unit
+//        }
     }
 
     Box(

@@ -32,6 +32,28 @@ class AuthWithGoogle(private val context: Context) {
         }
     }
 
+    fun login(email: String, password: String): Flow<AuthState> = callbackFlow {
+        if (email.isEmpty() && password.isEmpty()) {
+            trySend(AuthState.Error("Email or password can't be empty"))
+        }
+        trySend(AuthState.Loading)
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    trySend(AuthState.Authenticated)
+                } else {
+                    trySend(AuthState.Error(task.exception?.message ?: "Something went wrong"))
+                }
+            }
+        awaitClose()
+    }
+
+    fun signout(): Flow<AuthState> = callbackFlow{
+        auth.signOut()
+        trySend(AuthState.Unauthenticated)
+        awaitClose()
+    }
+
     fun signInWIthGoogle(): Flow<AuthState> = callbackFlow {
         val googleOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)

@@ -25,7 +25,7 @@ fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
         composable("splash") {
             SplashScreen(
                 navController = navController,
-                authViewModel = authViewModel
+//                authViewModel = authViewModel
             )
         }
         composable("launch") {
@@ -35,7 +35,7 @@ fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
         }
         composable("login") {
             LoginScreen(
-                authViewModel = authViewModel,
+//                authViewModel = authViewModel,
                 navController = navController
             )
         }
@@ -60,21 +60,20 @@ fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
         }
         composable("onBoarding") {
             OnBoardingScreen(
-                onClick = {
-                    navController.navigate("homePage"){
-                        popUpTo(0)
-                    }
-                },
+//                onClick = {
+//                    navController.navigate("homePage"){
+//                        popUpTo(0)
+//                    }
+//                },
                 navController = navController,
                 authViewModel = authViewModel
             )
         }
         composable("homePage") {
-            HomePageScreen(
-                authViewModel = authViewModel,
-                navController = navController
+            HomePageScreen(navController = navController
             )
         }
+
         composable("product") {
             SpecialOfferScreen(
                 onBackClicked = {},
