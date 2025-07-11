@@ -20,7 +20,7 @@ import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "splash") {
+    NavHost(navController = navController, startDestination = "forgotPassword") {
         composable("splash") {
             SplashScreen(
                 navController = navController
@@ -43,14 +43,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
         composable("forgotPassword") {
             ForgotPasswordScreen(
-                onBackClicked = { navController.popBackStack() },
-                onClickButtonNext = {}
-            )
-        }
-        composable("setPassword") {
-            SetPasswordScreen(
-                onBackClicked = { navController.popBackStack() },
-                onClickResetPasswordButton = { navController.navigate("login") }
+                navController = navController
             )
         }
         composable("onBoarding") {
