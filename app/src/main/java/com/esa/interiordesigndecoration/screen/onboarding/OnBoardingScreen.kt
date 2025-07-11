@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -39,22 +40,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.data.model.OnBoardingModel
-import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
-//    onClick: () -> Unit = {},
-    navController: NavController,
-    authViewModel: AuthViewModel
+    navController: NavController
 ) {
-//    val authState = authViewModel.authState.observeAsState()
-//    LaunchedEffect(authState.value) {
-//        when(authState.value){
-//            is AuthState.Authenticated -> navController.navigate("homePage")
-//            else -> Unit
-//        }
-//    }
     val pages = listOf(
         OnBoardingModel.First,
         OnBoardingModel.Second,
@@ -67,6 +58,7 @@ fun OnBoardingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
     ) {
         HorizontalPager(
             state = pagerState,
@@ -77,11 +69,11 @@ fun OnBoardingScreen(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(top = 40.dp, end = 15.dp)
+                        .padding(top = 55.dp, end = 15.dp)
                 ){
                     SkipButton(
                         modifier = Modifier
-                            .width(70.dp),
+                            .width(55.dp),
                         pagerState = pagerState,
                         onClick = {
                             coroutineScope.launch {
@@ -99,13 +91,13 @@ fun OnBoardingScreen(
                 }
             }
         }
-        Spacer(Modifier.height(110.dp))
+        Spacer(Modifier.height(90.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp)
+                .padding(horizontal = 20.dp)
         ) {
             Row {
                 repeat(pages.size) {
@@ -135,7 +127,9 @@ fun OnBoardingScreen(
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                     if (pagerState.currentPage == 3){
-                        navController.navigate("homePage")
+                        navController.navigate("launch"){
+                            popUpTo(0)
+                        }
                     }
                 }
             )
@@ -175,7 +169,7 @@ fun OnBoardingPage(onBoarding: OnBoardingModel) {
             Text(
                 text = onBoarding.titlePage,
                 color = Color(0xFFF4B5A4),
-                fontSize = 35.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(Modifier.height(13.dp))
@@ -186,7 +180,9 @@ fun OnBoardingPage(onBoarding: OnBoardingModel) {
             ) {
                 Text(
                     text = onBoarding.descriptionPage,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontSize = 13.sp,
+                    lineHeight = 16.sp
                 )
             }
         }
@@ -212,13 +208,14 @@ fun SkipButton(
         ){
             Text(
                 text = "Skip",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W300
+                fontSize = 17.sp,
+                fontWeight = FontWeight.W500
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
                 contentDescription = "",
-                tint = Color.Gray
+                modifier = Modifier
+                    .size(18.dp)
             )
         }
     }

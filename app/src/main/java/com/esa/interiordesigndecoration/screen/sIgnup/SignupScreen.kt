@@ -24,12 +24,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,48 +36,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.TopBar
 import com.esa.interiordesigndecoration.data.viewmodel.AuthState
-import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 import com.esa.interiordesigndecoration.data.viewmodel.AuthWithGoogle
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun SignupScreen(
-    navController: NavController,
-    authViewModel: AuthViewModel
+    navController: NavController
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var authState = authViewModel.authState.observeAsState()
+    var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val authWithGoogle = remember { AuthWithGoogle(context) }
     val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(authState.value) {
-        when (authState.value) {
-            is AuthState.Authenticated -> navController.navigate("onBoarding") {
-                popUpTo(0)
-            }
-
-            is AuthState.Error -> Toast.makeText(
-                context,
-                (authState.value as AuthState.Error).message,
-                Toast.LENGTH_SHORT
-            ).show()
-
-            else -> Unit
-        }
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +67,7 @@ fun SignupScreen(
         Spacer(Modifier.height(60.dp))
         TopBar(
             onBackClicked = {
-
+                navController.navigate("launch")
             },
             topBarTitle = stringResource(R.string.topbar_text_create_account),
             modifier = Modifier
@@ -198,11 +175,37 @@ fun SignupScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        authViewModel.signup(email = email, password = confirmPassword)
+                        authWithGoogle.signup(email = email, password = confirmPassword)
+                            .onEach { response ->
+                                when (response) {
+                                    is AuthState.Loading -> {
+                                        isLoading = true
+                                    }
+                                    is AuthState.Authenticated -> {
+                                        isLoading = false
+                                        navController.navigate("homePage") {
+                                            popUpTo(0)
+                                        }
+                                    }
+                                    is AuthState.Error -> {
+                                        isLoading = false
+                                        Toast.makeText(
+                                            context,
+                                            response.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    is AuthState.Unauthenticated -> {
+                                        isLoading = false
+                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                            .launchIn(coroutineScope)
                     }
                 },
+                enabled = !isLoading,
                 colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
-                enabled = authState.value != AuthState.Loading,
                 modifier = Modifier
                     .width(180.dp)
                     .height(50.dp)
@@ -235,14 +238,31 @@ fun SignupScreen(
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            authWithGoogle.signInWIthGoogle()
-                                .onEach { respone ->
-                                    if (respone is AuthState.Authenticated){
-                                        navController.navigate("onBoarding"){
+                            authWithGoogle.signInWIthGoogle().onEach { response ->
+                                when (response) {
+                                    is AuthState.Loading -> {
+                                        isLoading = true
+                                    }
+                                    is AuthState.Authenticated -> {
+                                        isLoading = false
+                                        navController.navigate("homePage") {
                                             popUpTo(0)
                                         }
                                     }
+                                    is AuthState.Error -> {
+                                        isLoading = false
+                                        Toast.makeText(
+                                            context,
+                                            response.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    is AuthState.Unauthenticated -> {
+                                        isLoading = false
+                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
+                            }
                                 .launchIn(coroutineScope)
                         }
                 )

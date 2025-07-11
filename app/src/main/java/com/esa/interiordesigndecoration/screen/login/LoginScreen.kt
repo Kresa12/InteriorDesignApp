@@ -26,9 +26,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,36 +46,22 @@ import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.TopBar
 import com.esa.interiordesigndecoration.data.viewmodel.AuthState
-import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 import com.esa.interiordesigndecoration.data.viewmodel.AuthWithGoogle
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-//    authViewModel: AuthViewModel
+    navController: NavController
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-//    val authState = authViewModel.authState.observeAsState()
+    var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val authWithGoogle = remember { AuthWithGoogle(context) }
     val coroutineScope = rememberCoroutineScope()
-//    LaunchedEffect(authState.value) {
-//        when(authState.value){
-//            is AuthState.Authenticated -> navController.navigate("onBoarding"){
-//                popUpTo(0)
-//            }
-//            is AuthState.Error -> Toast.makeText(
-//                context,
-//                (authState.value as AuthState.Error).message,
-//                Toast.LENGTH_SHORT).show()
-//            else -> Unit
-//        }
-//    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +70,7 @@ fun LoginScreen(
         Spacer(Modifier.height(60.dp))
         TopBar(
             onBackClicked = {
-
+                navController.navigate("launch")
             },
             topBarTitle = stringResource(R.string.title_log_in_screen),
             modifier = Modifier
@@ -116,7 +100,7 @@ fun LoginScreen(
         ) {
             OutlinedTextField(
                 value = email,
-                onValueChange = {email = it},
+                onValueChange = { email = it },
                 shape = RoundedCornerShape(27.dp),
                 label = {
                     Text(
@@ -136,7 +120,7 @@ fun LoginScreen(
             Spacer(Modifier.height(30.dp))
             OutlinedTextField(
                 value = password,
-                onValueChange = {password = it},
+                onValueChange = { password = it },
                 shape = RoundedCornerShape(27.dp),
                 label = {
                     Text(
@@ -145,7 +129,8 @@ fun LoginScreen(
                 },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     val desc = if (passwordVisible) "Hide password" else "Show password"
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
@@ -168,19 +153,36 @@ fun LoginScreen(
             Spacer(Modifier.height(50.dp))
             Button(
                 onClick = {
-//                    authViewModel.login(email = email, password = password)
                     authWithGoogle.login(email = email, password = password)
-                        .onEach { respone ->
-                            if (respone is AuthState.Authenticated){
-                                navController.navigate("onBoarding"){
-                                    popUpTo(0)
+                        .onEach { response ->
+                            when (response) {
+                                is AuthState.Loading -> {
+                                    isLoading = true
+                                }
+                                is AuthState.Authenticated -> {
+                                    isLoading = false
+                                    navController.navigate("homePage") {
+                                        popUpTo(0)
+                                    }
+                                }
+                                is AuthState.Error -> {
+                                    isLoading = false
+                                    Toast.makeText(
+                                        context,
+                                        response.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is AuthState.Unauthenticated -> {
+                                    isLoading = false
+                                    Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
                         .launchIn(coroutineScope)
                 },
+                enabled = !isLoading,
                 colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
-//                enabled = authState.value != AuthState.Loading,
                 modifier = Modifier
                     .width(180.dp)
                     .height(50.dp)
@@ -223,18 +225,30 @@ fun LoginScreen(
                         .size(40.dp)
                         .clickable {
                             authWithGoogle.signInWIthGoogle().onEach { response ->
-                                    if (response is AuthState.Authenticated){
-                                        navController.navigate("homePage"){
+                                when (response) {
+                                    is AuthState.Loading -> {
+                                        isLoading = true
+                                    }
+                                    is AuthState.Authenticated -> {
+                                        isLoading = false
+                                        navController.navigate("homePage") {
                                             popUpTo(0)
                                         }
-                                    }else{
+                                    }
+                                    is AuthState.Error -> {
+                                        isLoading = false
                                         Toast.makeText(
                                             context,
-                                            "Gagal Login",
+                                            response.message,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
+                                    is AuthState.Unauthenticated -> {
+                                        isLoading = false
+                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
+                            }
                                 .launchIn(coroutineScope)
                         }
                 )
@@ -245,9 +259,7 @@ fun LoginScreen(
                     text = stringResource(R.string.don_t_have_an_account),
                     color = Color.Gray,
                 )
-
                 Spacer(Modifier.width(5.dp))
-
                 Text(
                     text = stringResource(R.string.sign_up_dialogue),
                     color = Color(0xFFCC7861),

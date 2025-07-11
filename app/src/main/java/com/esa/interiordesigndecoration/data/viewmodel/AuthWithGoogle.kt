@@ -48,6 +48,22 @@ class AuthWithGoogle(private val context: Context) {
         awaitClose()
     }
 
+    fun signup(email: String, password: String): Flow<AuthState> = callbackFlow {
+        if (email.isEmpty() && password.isEmpty()) {
+            trySend(AuthState.Error("Email or password can't be empty"))
+        }
+        trySend(AuthState.Loading)
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    trySend(AuthState.Authenticated)
+                } else {
+                    trySend(AuthState.Error(task.exception?.message ?: "Something went wrong"))
+                }
+            }
+        awaitClose()
+    }
+
     fun signout(): Flow<AuthState> = callbackFlow{
         auth.signOut()
         trySend(AuthState.Unauthenticated)
@@ -104,4 +120,11 @@ class AuthWithGoogle(private val context: Context) {
         }
         awaitClose()
     }
+}
+
+sealed class AuthState {
+    object Authenticated : AuthState()
+    object Unauthenticated : AuthState()
+    object Loading : AuthState()
+    data class Error(val message: String) : AuthState()
 }

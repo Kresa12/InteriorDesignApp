@@ -29,23 +29,13 @@ import androidx.navigation.NavHostController
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.LauchButtonLoginSigUp
 import com.esa.interiordesigndecoration.data.viewmodel.AuthState
-import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 
 @Composable
 fun LaunchScreenAndLoginSigUp(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-//    authViewModel: AuthViewModel
-    ) {
-//    val authState = authViewModel.authState.observeAsState()
-//    LaunchedEffect(authState.value) {
-//        when(authState.value){
-//            is AuthState.Authenticated -> navController.navigate("homePage")
-//            else -> Unit
-//        }
-//    }
+    navController: NavController
+) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFFFFFF))
     ) {
@@ -57,26 +47,22 @@ fun LaunchScreenAndLoginSigUp(
             Image(
                 painter = painterResource(R.drawable.lauchicon),
                 contentDescription = "lauch icon",
-                modifier = modifier
+                modifier = Modifier
                     .size(150.dp)
             )
-
             Text(
                 text = stringResource(R.string.lauch_text1),
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFFF4B5A4),
                 fontSize = 50.sp
             )
-
             Text(
                 text = stringResource(R.string.lauch_text2),
                 color = Color(0xFFF4B5A4),
                 fontSize = 30.sp,
                 letterSpacing = 11.sp
             )
-
             Spacer(modifier = Modifier.height(20.dp))
-
             Text(
                 text = stringResource(R.string.lorem),
                 textAlign = TextAlign.Center,
@@ -85,7 +71,6 @@ fun LaunchScreenAndLoginSigUp(
                     .width(250.dp)
             )
             Spacer(Modifier.height(25.dp))
-
             LauchButtonLoginSigUp(
                 navController = navController,
                 modifier = Modifier
@@ -94,11 +79,3 @@ fun LaunchScreenAndLoginSigUp(
         }
     }
 }
-
-
-
-//@Preview
-//@Composable
-//fun PrevLauchAndLoginSigUp(modifier: Modifier = Modifier) {
-//    LaunchScreenAndLoginSigUp()
-//}

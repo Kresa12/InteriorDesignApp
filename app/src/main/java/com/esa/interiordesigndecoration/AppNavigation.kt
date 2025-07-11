@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.esa.interiordesigndecoration.data.viewmodel.AuthViewModel
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.forgotpassword.ForgotPasswordScreen
 import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
@@ -18,14 +17,13 @@ import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
+fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
             SplashScreen(
-                navController = navController,
-//                authViewModel = authViewModel
+                navController = navController
             )
         }
         composable("launch") {
@@ -35,14 +33,11 @@ fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
         }
         composable("login") {
             LoginScreen(
-//                authViewModel = authViewModel,
                 navController = navController
             )
         }
         composable("signup") {
             SignupScreen(
-//            onBackClicked = { navController.popBackStack()},
-                authViewModel = authViewModel,
                 navController = navController
             )
         }
@@ -60,13 +55,7 @@ fun AppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
         }
         composable("onBoarding") {
             OnBoardingScreen(
-//                onClick = {
-//                    navController.navigate("homePage"){
-//                        popUpTo(0)
-//                    }
-//                },
-                navController = navController,
-                authViewModel = authViewModel
+                navController = navController
             )
         }
         composable("homePage") {
