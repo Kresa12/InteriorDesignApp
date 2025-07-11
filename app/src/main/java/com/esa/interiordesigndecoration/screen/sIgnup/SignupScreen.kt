@@ -55,6 +55,7 @@ fun SignupScreen(
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var passwordConfirmVisible by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val authWithGoogle = remember { AuthWithGoogle(context) }
@@ -142,16 +143,16 @@ fun SignupScreen(
                         text = "confirm password"
                     )
                 },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (passwordConfirmVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val icon =
-                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                    val desc = if (passwordVisible) "Hide password" else "Show password"
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        if (passwordConfirmVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val desc = if (passwordConfirmVisible) "Hide password" else "Show password"
+                    IconButton(onClick = { passwordConfirmVisible = !passwordConfirmVisible }) {
                         Icon(
                             imageVector = icon,
                             contentDescription = desc,
-                            tint = if (passwordVisible) Color.Black else Color.Red
+                            tint = if (passwordConfirmVisible) Color.Black else Color.Red
                         )
                     }
                 },
