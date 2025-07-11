@@ -153,33 +153,40 @@ fun LoginScreen(
             Spacer(Modifier.height(50.dp))
             Button(
                 onClick = {
-                    authWithGoogle.login(email = email, password = password)
-                        .onEach { response ->
-                            when (response) {
-                                is AuthState.Loading -> {
-                                    isLoading = true
-                                }
-                                is AuthState.Authenticated -> {
-                                    isLoading = false
-                                    navController.navigate("homePage") {
-                                        popUpTo(0)
+                    if (email.isEmpty() || password.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "password or email can't be empty",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        authWithGoogle.login(email = email, password = password)
+                            .onEach { response ->
+                                when (response) {
+                                    is AuthState.Loading -> {
+                                        isLoading = true
                                     }
-                                }
-                                is AuthState.Error -> {
-                                    isLoading = false
-                                    Toast.makeText(
-                                        context,
-                                        response.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                is AuthState.Unauthenticated -> {
-                                    isLoading = false
-                                    Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
+                                    is AuthState.Authenticated -> {
+                                        isLoading = false
+                                        navController.navigate("homePage") {
+                                            popUpTo(0)
+                                        }
+                                    }
+                                    is AuthState.Error -> {
+                                        isLoading = false
+                                        Toast.makeText(
+                                            context,
+                                            response.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    else -> Unit
                                 }
                             }
-                        }
-                        .launchIn(coroutineScope)
+                            .launchIn(coroutineScope)
+                    }
+
                 },
                 enabled = !isLoading,
                 colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
@@ -193,7 +200,7 @@ fun LoginScreen(
             }
             TextButton(
                 onClick = {
-
+                    navController.navigate("forgotPassword")
                 }
             ) {
                 Text(
@@ -226,15 +233,13 @@ fun LoginScreen(
                         .clickable {
                             authWithGoogle.signInWIthGoogle().onEach { response ->
                                 when (response) {
-                                    is AuthState.Loading -> {
-                                        isLoading = true
-                                    }
                                     is AuthState.Authenticated -> {
                                         isLoading = false
                                         navController.navigate("homePage") {
                                             popUpTo(0)
                                         }
                                     }
+
                                     is AuthState.Error -> {
                                         isLoading = false
                                         Toast.makeText(
@@ -243,10 +248,8 @@ fun LoginScreen(
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                    is AuthState.Unauthenticated -> {
-                                        isLoading = false
-                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
-                                    }
+
+                                    else -> Unit
                                 }
                             }
                                 .launchIn(coroutineScope)

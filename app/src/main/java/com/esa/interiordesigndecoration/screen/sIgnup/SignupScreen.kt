@@ -175,7 +175,15 @@ fun SignupScreen(
                             "confirm password is not the same with password",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else {
+                    }
+                    else if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
+                        Toast.makeText(
+                            context,
+                            "email or password and confirm password can't be empty",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else {
                         authWithGoogle.signup(email = email, password = confirmPassword)
                             .onEach { response ->
                                 when (response) {
@@ -196,10 +204,7 @@ fun SignupScreen(
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                    is AuthState.Unauthenticated -> {
-                                        isLoading = false
-                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
-                                    }
+                                    else -> Unit
                                 }
                             }
                             .launchIn(coroutineScope)
@@ -241,9 +246,6 @@ fun SignupScreen(
                         .clickable {
                             authWithGoogle.signInWIthGoogle().onEach { response ->
                                 when (response) {
-                                    is AuthState.Loading -> {
-                                        isLoading = true
-                                    }
                                     is AuthState.Authenticated -> {
                                         isLoading = false
                                         navController.navigate("homePage") {
@@ -258,10 +260,7 @@ fun SignupScreen(
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                    is AuthState.Unauthenticated -> {
-                                        isLoading = false
-                                        Toast.makeText(context, "Belum login", Toast.LENGTH_SHORT).show()
-                                    }
+                                    else -> Unit
                                 }
                             }
                                 .launchIn(coroutineScope)
