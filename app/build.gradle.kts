@@ -48,6 +48,10 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.compose.material:material:1.8.3")
+    implementation("androidx.navigation:navigation-compose:2.9.1")
+
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
 
 
