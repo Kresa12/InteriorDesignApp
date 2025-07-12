@@ -2,9 +2,9 @@ package com.esa.interiordesigndecoration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.forgotpassword.ForgotPasswordScreen
 import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
@@ -14,10 +14,11 @@ import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignupScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
+import com.esa.interiordesigndecoration.ui.CategoryTesScreen
+import com.esa.interiordesigndecoration.ui.WhistListTesScreen
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
+fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifier) {
 
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
@@ -51,10 +52,16 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             )
         }
         composable("homePage") {
-            HomePageScreen(navController = navController
+            HomePageScreen(
+                navController = navController
             )
         }
-
+        composable("category") {
+            CategoryTesScreen()
+        }
+        composable("wishList") {
+            WhistListTesScreen()
+        }
         composable("product") {
             SpecialOfferScreen(
                 onBackClicked = {},
