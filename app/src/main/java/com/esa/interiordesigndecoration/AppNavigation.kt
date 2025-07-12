@@ -12,7 +12,6 @@ import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignupScreen
-import com.esa.interiordesigndecoration.screen.setpassword.SetPasswordScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 
@@ -20,7 +19,7 @@ import com.esa.interiordesigndecoration.screen.splash.SplashScreen
 fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "forgotPassword") {
+    NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
             SplashScreen(
                 navController = navController
