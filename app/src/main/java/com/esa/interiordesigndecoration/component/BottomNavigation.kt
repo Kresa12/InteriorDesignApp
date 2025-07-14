@@ -1,6 +1,8 @@
 package com.esa.interiordesigndecoration.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -28,6 +30,7 @@ fun BottomNavigationBar(navController: NavController) {
         elevation = 10.dp,
         modifier = Modifier
             .fillMaxWidth()
+            .navigationBarsPadding()
     ) {
         val bottomNavigationItem = listOf(
             BottomNavigationItemModel(
@@ -69,15 +72,15 @@ fun BottomNavigationBar(navController: NavController) {
                     Icon(
                         painter = painterResource(item.icon),
                         contentDescription = "",
-                        tint = Color.Black,
+                        tint = if (isSelected) Color.Black else Color(0xFFF4B5A4),
                         modifier = Modifier
-                            .size(17.dp)
+                            .size(22.dp)
                     )
                 },
                 label = {
                     Text(
                         text = "_",
-                        color = if (isSelected) Color.White else Color.Black
+                        color = if (isSelected) Color.Black else Color(0xFFF4B5A4)
                     )
                 },
                 alwaysShowLabel = isSelected
