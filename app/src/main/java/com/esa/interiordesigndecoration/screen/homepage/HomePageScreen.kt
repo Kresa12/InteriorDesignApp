@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -37,7 +38,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -68,6 +71,7 @@ import kotlinx.coroutines.launch
 fun HomePageScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    selectedRoomIndex: MutableState<Int>
     ) {
     val context = LocalContext.current
     val authWithGoogle = remember { AuthWithGoogle(context) }
@@ -113,7 +117,9 @@ fun HomePageScreen(
             }
             BannerSlider()
             Spacer(Modifier.height(15.dp))
-            Categories()
+            Categories(
+                selectedRoom = { selectedRoomIndex.value = it }
+            )
             Spacer(Modifier.height(15.dp))
             BestSeller()
             Spacer(Modifier.height(15.dp))
@@ -187,7 +193,7 @@ fun BannerSlider(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Categories(modifier: Modifier = Modifier) {
+fun Categories(modifier: Modifier = Modifier, selectedRoom : (Int)->Unit) {
     Column (
         modifier = modifier
             .fillMaxWidth()
@@ -204,22 +210,20 @@ fun Categories(modifier: Modifier = Modifier) {
             RoomNameModel(R.drawable.categorydiningroom),
             RoomNameModel(R.drawable.categorykitcen),
             RoomNameModel(R.drawable.categorylivingroom),
-            RoomNameModel(R.drawable.categoryoffice),
-            RoomNameModel(R.drawable.categorybedroom),
-            RoomNameModel(R.drawable.categorydiningroom),
-            RoomNameModel(R.drawable.categorykitcen),
-            RoomNameModel(R.drawable.categorylivingroom),
             RoomNameModel(R.drawable.categoryoffice)
         )
         var selected by remember { mutableStateOf(listCategories[0]) }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ){
-            items(listCategories){
+            itemsIndexed(listCategories){index, it ->
                 val isSelected = it == selected
                 Box(
                     modifier = Modifier
-                        .clickable { selected = it }
+                        .clickable {
+                            selected = it
+                            selectedRoom(index)
+                        }
                         .size(60.dp)
                         .clip(RoundedCornerShape(17.dp))
                         .background(if (isSelected) Color(0xFFF4B5A4) else Color(0xFFCC7861))

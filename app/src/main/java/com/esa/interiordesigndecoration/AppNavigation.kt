@@ -1,14 +1,19 @@
 package com.esa.interiordesigndecoration
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
+import com.esa.interiordesigndecoration.screen.bathroom.BathRoom
+import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
 import com.esa.interiordesigndecoration.screen.forgotpassword.ForgotPasswordScreen
 import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
+import com.esa.interiordesigndecoration.screen.kitchenroom.Kitchen
 import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
+import com.esa.interiordesigndecoration.screen.livingroom.LivingRoomScreen
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
 import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignupScreen
@@ -18,7 +23,11 @@ import com.esa.interiordesigndecoration.ui.CategoryTesScreen
 import com.esa.interiordesigndecoration.ui.WhistListTesScreen
 
 @Composable
-fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavigation(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    selectedRoomIndex: MutableState<Int>
+) {
 
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
@@ -53,18 +62,32 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
         }
         composable("homePage") {
             HomePageScreen(
-                navController = navController
-            )
-        }
-        composable("category") {
-            CategoryTesScreen()
-        }
-        composable("wishList") {
-            WhistListTesScreen()
+                navController = navController,
+                selectedRoomIndex = selectedRoomIndex)
         }
         composable("product") {
             SpecialOfferScreen(
                 onBackClicked = {},
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+            )
+        }
+        composable("bedRoom") {
+            BedRoomScreen(
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+            )
+        }
+        composable("kitchen") {
+            Kitchen(
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+            )
+        }
+        composable("livingRoom") {
+            LivingRoomScreen(
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+            )
+        }
+        composable("bathRoom") {
+            BathRoom(
                 navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
             )
         }

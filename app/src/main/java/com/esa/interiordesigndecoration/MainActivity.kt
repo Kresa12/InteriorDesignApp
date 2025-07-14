@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -32,17 +34,21 @@ class MainActivity : ComponentActivity() {
 
             val showBottomBar = bottomBarScreens.any { currentRoute?.startsWith(it) == true }
 
+            val selectedRoomIndex = remember { mutableIntStateOf(0) }
+
+
             InteriorDesignDecorationTheme {
                 Scaffold(
                     bottomBar = {
                         if (showBottomBar) {
-                            BottomNavigationBar(navController = navController)
+                            BottomNavigationBar(navController = navController, selectedRoom = selectedRoomIndex.value)
                         }
                     }
                 ) { innerPadding ->
                     AppNavigation(
                         navController = navController,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        selectedRoomIndex = selectedRoomIndex
                     )
                 }
             }

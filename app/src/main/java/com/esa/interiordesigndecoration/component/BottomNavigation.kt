@@ -22,7 +22,7 @@ import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.data.model.BottomNavigationItemModel
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController , selectedRoom: Int) {
     var itemNavigationSelected by remember { mutableIntStateOf(0) }
 
     BottomNavigation(
@@ -62,7 +62,14 @@ fun BottomNavigationBar(navController: NavController) {
                     itemNavigationSelected = index
                     when(itemNavigationSelected){
                         0 -> navController.navigate("homePage")
-                        1 -> navController.navigate("category")
+                        1 -> {
+                            when(selectedRoom){
+                                0 -> navController.navigate("bedRoom")
+                                1 -> navController.navigate("kitchen")
+                                2 -> navController.navigate("livingRoom")
+                                3 -> navController.navigate("bathRoom")
+                            }
+                        }
                         2 -> navController.navigate("cart")
                         3 -> navController.navigate("wishList")
                         4 -> navController.navigate("profile")
