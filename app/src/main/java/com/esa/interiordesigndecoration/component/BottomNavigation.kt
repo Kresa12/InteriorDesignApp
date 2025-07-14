@@ -1,8 +1,6 @@
 package com.esa.interiordesigndecoration.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -16,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.esa.interiordesigndecoration.R
@@ -72,6 +69,7 @@ fun BottomNavigationBar(navController: NavController) {
                     Icon(
                         painter = painterResource(item.icon),
                         contentDescription = "",
+                        tint = Color.Black,
                         modifier = Modifier
                             .size(17.dp)
                     )
