@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
+import com.esa.interiordesigndecoration.data.model.ProductModel
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
 @Composable
@@ -49,7 +50,8 @@ fun CardProductListByRoom(
     viewModel: ProductViewModel = viewModel(),
     navigateToDetailProduct : (Int) -> Unit = {},
     selectedRoom : String,
-    selectedCategory : String
+    selectedCategory : String,
+    productWishList : MutableList<ProductModel>
 ) {
     val productByRoom by viewModel.productByRoom.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
@@ -141,7 +143,9 @@ fun CardProductListByRoom(
                             )
                             Row {
                                 IconButton(
-                                    onClick = {},
+                                    onClick = {
+                                        productWishList.add(it)
+                                    },
                                     colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                     modifier = Modifier
                                         .size(20.dp)

@@ -3,8 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    //    id("com.android.application")
     id("com.google.gms.google-services")
+
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,6 +49,15 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.7.2"
+
+    implementation("androidx.room:room-runtime:$room_version")
+
+    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
+    // See Add the KSP plugin to your project
+    ksp("androidx.room:room-compiler:$room_version")
+
 
     implementation("androidx.compose.material:material:1.8.3")
     implementation("androidx.navigation:navigation-compose:2.9.1")

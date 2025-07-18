@@ -19,12 +19,14 @@ import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.CardProductListByRoom
 import com.esa.interiordesigndecoration.component.Category
 import com.esa.interiordesigndecoration.component.TopBarHome
+import com.esa.interiordesigndecoration.data.model.ProductModel
 
 @Composable
 fun BedRoomScreen(
     modifier: Modifier = Modifier,
     onBackClicked : () -> Unit = {},
-    navigateToDetailProduct : (Int) -> Unit = {}
+    navigateToDetailProduct : (Int) -> Unit = {},
+    productWishList : MutableList<ProductModel>
 ) {
     val selectedRoom by remember{ mutableStateOf("BedRoom") }
     var selectedCategory by remember { mutableStateOf("") }
@@ -41,12 +43,12 @@ fun BedRoomScreen(
         Spacer(Modifier.height(25.dp))
         Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory)
+        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory, productWishList = productWishList)
     }
 }
 
-@Preview
-@Composable
-private fun BedRoomScreenPrev() {
-    BedRoomScreen()
-}
+//@Preview
+//@Composable
+//private fun BedRoomScreenPrev() {
+//    BedRoomScreen()
+//}

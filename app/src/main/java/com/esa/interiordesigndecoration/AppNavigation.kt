@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.esa.interiordesigndecoration.data.model.ProductModel
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.bathroom.BathRoom
 import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
@@ -19,14 +20,14 @@ import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignupScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
 import com.esa.interiordesigndecoration.screen.splash.SplashScreen
-import com.esa.interiordesigndecoration.ui.CategoryTesScreen
-import com.esa.interiordesigndecoration.ui.WhistListTesScreen
+import com.esa.interiordesigndecoration.screen.wishlist.WishListScreen
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    selectedRoomIndex: MutableState<Int>
+    selectedRoomIndex: MutableState<Int>,
+    productWishList : MutableList<ProductModel>
 ) {
 
     NavHost(navController = navController, startDestination = "splash") {
@@ -73,22 +74,26 @@ fun AppNavigation(
         }
         composable("bedRoom") {
             BedRoomScreen(
-                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
+                productWishList = productWishList
             )
         }
         composable("kitchen") {
             Kitchen(
-                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
+                productWishList = productWishList
             )
         }
         composable("livingRoom") {
             LivingRoomScreen(
-                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
+                productWishList = productWishList
             )
         }
         composable("bathRoom") {
             BathRoom(
-                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
+                productWishList = productWishList
             )
         }
         composable("productDetail/{productId}") { backStackEntry ->
@@ -96,6 +101,12 @@ fun AppNavigation(
             DetailProductScrenn(
                 productId = productId,
                 onBackClicked = { navController.popBackStack() }
+            )
+        }
+
+        composable("wishList"){
+            WishListScreen(
+                productWishList = productWishList
             )
         }
     }
