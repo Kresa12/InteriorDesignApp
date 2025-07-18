@@ -6,6 +6,8 @@ plugins {
     id("com.google.gms.google-services")
 
     id("com.google.devtools.ksp")
+
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -49,6 +51,9 @@ android {
 }
 
 dependencies {
+
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
     val room_version = "2.7.2"
 

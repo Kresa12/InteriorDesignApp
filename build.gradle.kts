@@ -9,4 +9,7 @@ plugins {
 
     //Add the dependency for roomdb
     id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
+
+    //Add the dependency for Hilt
+    id("com.google.dagger.hilt.android") version "2.56.2" apply false
 }
