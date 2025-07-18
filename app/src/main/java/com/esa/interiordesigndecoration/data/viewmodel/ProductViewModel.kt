@@ -4,12 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.esa.interiordesigndecoration.data.model.ProductModel
 import com.esa.interiordesigndecoration.data.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductViewModel(private val repository: ProductRepository = ProductRepository()): ViewModel() {
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+    private val repository: ProductRepository
+): ViewModel() {
+
     private val _product = MutableStateFlow<List<ProductModel>>(emptyList())
     val product : StateFlow<List<ProductModel>> = _product
 

@@ -39,14 +39,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 
 @Composable
 fun CardProductListAll(
     modifier: Modifier = Modifier,
-    viewModel: ProductViewModel = viewModel(),
+    viewModel: ProductViewModel = hiltViewModel(),
     navigateToDetailProduct : (Int) -> Unit = {},
     selectedCategory : String
 ) {
@@ -56,7 +56,7 @@ fun CardProductListAll(
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onFetch = viewModel.fetchProduct()
-    val onGetAllFurnishCategoryByCategoryName = viewModel.getAllFurnishCategoryByCategoryName(categoryName = selectedCategory)
+//    val onGetAllFurnishCategoryByCategoryName = viewModel.getAllFurnishCategoryByCategoryName(categoryName = selectedCategory)
     LaunchedEffect(Unit) {
         return@LaunchedEffect onFetch
     }
@@ -79,7 +79,6 @@ fun CardProductListAll(
                         color = Color.White,
                         trackColor = Color(0xFFFAF0E6),
                     )
-
                     Text(
                         text = "Loading..."
                     )
@@ -109,31 +108,24 @@ fun CardProductListAll(
                                 contentScale = ContentScale.FillBounds
                             )
                         }
-
                         Spacer(Modifier.height(7.dp))
-
                         Text(
                             text = it.name,
                             color = Color(0xFFF4B5A4),
                             fontSize = 16.sp
                         )
-
                         Text(
                             text = it.description,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.W300
                         )
-
                         Spacer(Modifier.height(8.dp))
-
                         HorizontalDivider(
                             modifier = Modifier.fillMaxWidth(),
                             thickness = 0.5.dp,
                             color = Color.Gray
                         )
-
                         Spacer(Modifier.height(8.dp))
-
                         Row (
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -181,13 +173,10 @@ fun CardProductListAll(
                                     )
                                 }
                             }
-
                         }
-
                         Text(
                             text = it.categoryName
                         )
-
                     }
                 }
             }
@@ -211,7 +200,6 @@ fun CardProductListAll(
                     color = Color.White,
                     trackColor = Color(0xFFFAF0E6),
                 )
-
                 Text(
                     text = "Loading..."
                 )
@@ -241,31 +229,24 @@ fun CardProductListAll(
                             contentScale = ContentScale.FillBounds
                         )
                     }
-
                     Spacer(Modifier.height(7.dp))
-
                     Text(
                         text = it.name,
                         color = Color(0xFFF4B5A4),
                         fontSize = 16.sp
                     )
-
                     Text(
                         text = it.description,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300
                     )
-
                     Spacer(Modifier.height(8.dp))
-
                     HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
                         thickness = 0.5.dp,
                         color = Color.Gray
                     )
-
                     Spacer(Modifier.height(8.dp))
-
                     Row (
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -279,7 +260,6 @@ fun CardProductListAll(
                             color = Color(0xFFCC7861),
                             fontSize = 17.sp
                         )
-
                         Row {
                             IconButton(
                                 onClick = {},
@@ -315,11 +295,9 @@ fun CardProductListAll(
                         }
 
                     }
-
                     Text(
                         text = it.categoryName
                     )
-
                 }
             }
         }

@@ -19,7 +19,9 @@ import androidx.navigation.compose.rememberNavController
 import com.esa.interiordesigndecoration.component.BottomNavigationBar
 import com.esa.interiordesigndecoration.data.model.ProductModel
 import com.esa.interiordesigndecoration.ui.theme.InteriorDesignDecorationTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

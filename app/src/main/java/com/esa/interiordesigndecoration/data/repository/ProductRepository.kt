@@ -1,10 +1,12 @@
 package com.esa.interiordesigndecoration.data.repository
 
-import com.esa.interiordesigndecoration.data.api.APIClient
 import com.esa.interiordesigndecoration.data.api.APIService
 import com.esa.interiordesigndecoration.data.model.ProductModel
+import javax.inject.Inject
 
-class ProductRepository(private val api : APIService = APIClient.apiService) {
+class ProductRepository @Inject constructor(
+    private val api : APIService
+) {
 
     suspend fun getProduct() : List<ProductModel>{
         return api.getProduct()

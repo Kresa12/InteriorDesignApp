@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
 
@@ -25,7 +26,7 @@ import com.esa.interiordesigndecoration.data.viewmodel.CategoryViewModel
 fun Category(
     modifier: Modifier = Modifier,
     onCategorySelected: (String) -> Unit = {},
-    viewModel: CategoryViewModel = viewModel()
+    viewModel: CategoryViewModel = hiltViewModel()
 ) {
     val category by viewModel.category.collectAsState()
     var selected by remember { mutableStateOf("") }

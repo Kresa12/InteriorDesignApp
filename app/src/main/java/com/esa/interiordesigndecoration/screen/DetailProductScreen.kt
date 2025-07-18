@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.component.Search
@@ -100,7 +101,7 @@ fun TopBarDetailProduct(
 @Composable
 fun DetailProductInformation(
     modifier: Modifier = Modifier,
-    viewModel: ProductViewModel = viewModel(),
+    viewModel: ProductViewModel = hiltViewModel(),
     productId: String
 ) {
     val productDetail by viewModel.productDetail.collectAsState()

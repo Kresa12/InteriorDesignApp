@@ -39,7 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.data.model.ProductModel
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
@@ -47,8 +47,8 @@ import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
 @Composable
 fun CardProductListByRoom(
     modifier: Modifier = Modifier,
-    viewModel: ProductViewModel = viewModel(),
     navigateToDetailProduct : (Int) -> Unit = {},
+    viewModel: ProductViewModel = hiltViewModel(),
     selectedRoom : String,
     selectedCategory : String,
     productWishList : MutableList<ProductModel>
