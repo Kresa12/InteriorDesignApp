@@ -14,21 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.component.CardProductListByRoom
 import com.esa.interiordesigndecoration.component.Category
 import com.esa.interiordesigndecoration.component.TopBarHome
-import com.esa.interiordesigndecoration.data.model.ProductModel
+import com.esa.interiordesigndecoration.data.viewmodel.WishlistViewModel
 
 @Composable
 fun LivingRoomScreen(
     modifier: Modifier = Modifier,
     onBackClicked : () -> Unit = {},
-    navigateToDetailProduct : (Int) -> Unit = {},
-    productWishList : MutableList<ProductModel>
+    navigateToDetailProduct : (Int) -> Unit = {}
 ) {
     val selectedRoom by remember{ mutableStateOf("LivingRoom") }
     var selectedCategory by remember { mutableStateOf("") }
+    val viewModelProductWishList : WishlistViewModel = hiltViewModel()
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -42,6 +43,6 @@ fun LivingRoomScreen(
         Spacer(Modifier.height(25.dp))
         Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory, productWishList = productWishList)
+        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory, viewModelProductWishList = viewModelProductWishList)
     }
 }

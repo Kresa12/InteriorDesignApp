@@ -41,8 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.esa.interiordesigndecoration.data.model.ProductModel
+import com.esa.interiordesigndecoration.data.db.toWishlistEntity
 import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
+import com.esa.interiordesigndecoration.data.viewmodel.WishlistViewModel
 
 @Composable
 fun CardProductListByRoom(
@@ -51,13 +52,14 @@ fun CardProductListByRoom(
     viewModel: ProductViewModel = hiltViewModel(),
     selectedRoom : String,
     selectedCategory : String,
-    productWishList : MutableList<ProductModel>
+    viewModelProductWishList : WishlistViewModel = hiltViewModel()
 ) {
     val productByRoom by viewModel.productByRoom.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
     val onGetALlFurnishInRoomByRoomName = viewModel.getAllFurnishInRoomByRoomName(roomName = selectedRoom)
     val filterProductByCategory = productByRoom.filter { it.categoryName == selectedCategory}
+
     LaunchedEffect(Unit) {
         return@LaunchedEffect onGetALlFurnishInRoomByRoomName
     }
@@ -144,7 +146,7 @@ fun CardProductListByRoom(
                             Row {
                                 IconButton(
                                     onClick = {
-                                        productWishList.add(it)
+                                        viewModelProductWishList.insert(it.toWishlistEntity())
                                     },
                                     colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                     modifier = Modifier
