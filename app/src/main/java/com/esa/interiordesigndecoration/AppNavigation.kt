@@ -15,6 +15,7 @@ import com.esa.interiordesigndecoration.screen.kitchenroom.Kitchen
 import com.esa.interiordesigndecoration.screen.launch.LaunchScreenAndLoginSigUp
 import com.esa.interiordesigndecoration.screen.livingroom.LivingRoomScreen
 import com.esa.interiordesigndecoration.screen.login.LoginScreen
+import com.esa.interiordesigndecoration.screen.myprofilescreen.MyProfileScreen
 import com.esa.interiordesigndecoration.screen.onboarding.OnBoardingScreen
 import com.esa.interiordesigndecoration.screen.sIgnup.SignupScreen
 import com.esa.interiordesigndecoration.screen.specialoffer.SpecialOfferScreen
@@ -96,6 +97,11 @@ fun AppNavigation(
         }
         composable("wishList"){
             WishListScreen(
+                navController = navController
+            )
+        }
+        composable("myProfile"){
+            MyProfileScreen(
                 navController = navController
             )
         }

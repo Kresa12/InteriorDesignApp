@@ -72,7 +72,7 @@ fun BottomNavigationBar(navController: NavController , selectedRoom: Int) {
                         }
                         2 -> navController.navigate("cart")
                         3 -> navController.navigate("wishList")
-                        4 -> navController.navigate("profile")
+                        4 -> navController.navigate("myProfile")
                     }
                 },
                 icon = {
