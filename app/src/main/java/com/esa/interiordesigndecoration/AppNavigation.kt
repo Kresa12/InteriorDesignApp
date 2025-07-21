@@ -112,7 +112,8 @@ fun AppNavigation(
         }
         composable("cart"){
             CartScreen(
-                modifier = modifier
+                modifier = modifier,
+                navController = navController
             )
         }
         composable("wishList"){
