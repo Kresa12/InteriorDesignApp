@@ -54,13 +54,13 @@ fun ForgotPasswordScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(10.dp))
         TopBar(
             onBackClicked = { navController.navigate("login") },
             topBarTitle = stringResource(R.string.title_reset_password_screen),
             modifier = Modifier
-                .width(325.dp)
-                .padding(20.dp)
+                .width(300.dp)
+                .padding(start = 20.dp)
         )
         Spacer(Modifier.height(20.dp))
         Text(

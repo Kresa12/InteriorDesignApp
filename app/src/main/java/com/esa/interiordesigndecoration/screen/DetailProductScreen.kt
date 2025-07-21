@@ -58,7 +58,7 @@ fun DetailProductScrenn(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(60.dp))
+        Spacer(Modifier.height(10.dp))
         TopBarDetailProduct(onBackClicked = onBackClicked)
         Spacer(Modifier.height(25.dp))
         DetailProductInformation(productId = productId)

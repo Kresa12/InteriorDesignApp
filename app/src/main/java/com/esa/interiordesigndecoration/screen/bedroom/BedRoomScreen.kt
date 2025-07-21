@@ -36,7 +36,7 @@ fun BedRoomScreen(
             .fillMaxSize()
             .background(Color.White)
     ){
-        Spacer(Modifier.height(60.dp))
+        Spacer(Modifier.height(10.dp))
         TopBarHome(
             onBackClicked = onBackClicked,
             topBarTitle = stringResource(R.string.topbar_bed_room_title)

@@ -6,19 +6,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -30,6 +32,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,8 +42,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,57 +53,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
-import com.esa.interiordesigndecoration.component.Search
-import com.esa.interiordesigndecoration.data.model.CardProductModel
+import com.esa.interiordesigndecoration.data.db.toWishlistEntity
 import com.esa.interiordesigndecoration.data.model.RoomNameModel
-import com.esa.interiordesigndecoration.data.viewmodel.AuthState
-import com.esa.interiordesigndecoration.data.viewmodel.AuthWithGoogle
+import com.esa.interiordesigndecoration.data.viewmodel.ProductViewModel
+import com.esa.interiordesigndecoration.data.viewmodel.WishlistViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomePageScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    selectedRoomIndex: MutableState<Int>
+    selectedRoomIndex: MutableState<Int>,
+    navigateToDetailProduct : (Int) -> Unit = {}
     ) {
-    val context = LocalContext.current
-    val authWithGoogle = remember { AuthWithGoogle(context) }
-    val coroutineScope = rememberCoroutineScope()
-    Column(
+    val viewModelProductWishList : WishlistViewModel = hiltViewModel()
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 20.dp),
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(60.dp))
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp)
-        ) {
+        item{ Spacer(Modifier.height(10.dp)) }
+        item{
             Row (
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        authWithGoogle.signout()
-                            .onEach {respone ->
-                                if (respone is AuthState.Unauthenticated){
-                                    navController.navigate("login")
-                                }
-                            }
-                            .launchIn(coroutineScope)
-                    }
             ){
                 Column {
                     Text(
@@ -113,18 +101,17 @@ fun HomePageScreen(
                         text = "Create spaces that bring joy"
                     )
                 }
-                Search()
+//                Search()
             }
-            BannerSlider()
-            Spacer(Modifier.height(15.dp))
-            Categories(
-                selectedRoom = { selectedRoomIndex.value = it }
-            )
-            Spacer(Modifier.height(15.dp))
-            BestSeller()
-            Spacer(Modifier.height(15.dp))
-            NewCollection()
         }
+        item { Spacer(Modifier.height(15.dp)) }
+        item { BannerSlider() }
+        item { Spacer(Modifier.height(15.dp)) }
+        item { Categories(selectedRoom = { selectedRoomIndex.value = it }) }
+        item { Spacer(Modifier.height(15.dp)) }
+        item { BestSeller() }
+        item { Spacer(Modifier.height(15.dp)) }
+        item { NewCollection(navigateToDetailProduct = navigateToDetailProduct, viewModelProductWishList = viewModelProductWishList) }
     }
 }
 
@@ -210,6 +197,9 @@ fun Categories(modifier: Modifier = Modifier, selectedRoom : (Int)->Unit) {
             RoomNameModel(R.drawable.categorydiningroom),
             RoomNameModel(R.drawable.categorykitcen),
             RoomNameModel(R.drawable.categorylivingroom),
+            RoomNameModel(R.drawable.categoryoffice),
+            RoomNameModel(R.drawable.categoryoffice),
+            RoomNameModel(R.drawable.categoryoffice),
             RoomNameModel(R.drawable.categoryoffice)
         )
         var selected by remember { mutableStateOf(listCategories[0]) }
@@ -226,7 +216,7 @@ fun Categories(modifier: Modifier = Modifier, selectedRoom : (Int)->Unit) {
                         }
                         .size(60.dp)
                         .clip(RoundedCornerShape(17.dp))
-                        .background(if (isSelected) Color(0xFFF4B5A4) else Color(0xFFCC7861))
+                        .background(if (isSelected) Color(0xFFFAF0E6) else Color(0xFFCC7861))
                 ) {
                     Image(
                         painter = painterResource(id = it.image),
@@ -320,21 +310,18 @@ fun BestSeller(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun NewCollection(modifier: Modifier = Modifier) {
-    val cardProductList = listOf(
-        CardProductModel(image = R.drawable.bedroom1, nameProduct = "Product 1", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom2, nameProduct = "Product 2", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom3, nameProduct = "Product 3", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom4, nameProduct = "Product 4", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.bedroom5, nameProduct = "Product 5", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen1, nameProduct = "Product 6", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen2, nameProduct = "Product 7", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000),
-        CardProductModel(image = R.drawable.kitchen3, nameProduct = "Product 8", descriptionProduct = "Lorem ipsum dolor sit amet, consectetur adipiscing elit", price = 12000)
-    )
+fun NewCollection(
+    modifier: Modifier = Modifier,
+    viewModel: ProductViewModel = hiltViewModel(),
+    viewModelProductWishList : WishlistViewModel = hiltViewModel(),
+    navigateToDetailProduct : (Int) -> Unit = {}
+    ) {
+    val productList by viewModel.product.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(285.dp)
+            .heightIn(min = 100.dp, max = 790.dp)
     ) {
         Text(
             text = "New Collection",
@@ -343,14 +330,33 @@ fun NewCollection(modifier: Modifier = Modifier) {
             fontSize = 14.sp
         )
         Spacer(Modifier.height(10.dp))
+        if (isLoading){
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = Color.White,
+                    trackColor = Color(0xFFFAF0E6),
+                )
+                Text(
+                    text = "Loading..."
+                )
+            }
+        }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            items(cardProductList){
+            items(productList){
                 Card(
-                    colors = CardDefaults.cardColors(Color.White)
+                    colors = CardDefaults.cardColors(Color.White),
+                    modifier = Modifier
+                        .clickable { navigateToDetailProduct(it.id)}
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -359,32 +365,30 @@ fun NewCollection(modifier: Modifier = Modifier) {
                             .height(100.dp)
                             .background(Color(0xFFFAF0E6))
                     ){
-                        Image(
-                            painter = painterResource(it.image),
+                        AsyncImage(
+                            model = it.pictureUrl,
                             contentDescription = "product",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(110.dp)
+                            contentScale = ContentScale.FillBounds
                         )
                     }
                     Spacer(Modifier.height(7.dp))
                     Text(
-                        text = it.nameProduct,
+                        text = it.name,
                         color = Color(0xFFF4B5A4),
                         fontSize = 16.sp
                     )
                     Text(
-                        text = it.descriptionProduct,
+                        text = it.description,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300
                     )
-                    Spacer(Modifier.height(3.dp))
+                    Spacer(Modifier.height(8.dp))
                     HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
-                        color = Color.Gray,
-                        thickness = 0.5.dp
+                        thickness = 0.5.dp,
+                        color = Color.Gray
                     )
-                    Spacer(Modifier.height(3.dp))
+                    Spacer(Modifier.height(8.dp))
                     Row (
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -396,11 +400,14 @@ fun NewCollection(modifier: Modifier = Modifier) {
                             text = "$"+ it.price.toString(),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color(0xFFCC7861),
-                            fontSize = 14.sp
+                            fontSize = 17.sp
                         )
+
                         Row {
                             IconButton(
-                                onClick = {},
+                                onClick = {
+                                    viewModelProductWishList.insert(it.toWishlistEntity())
+                                },
                                 colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                 modifier = Modifier
                                     .size(20.dp)
@@ -414,6 +421,7 @@ fun NewCollection(modifier: Modifier = Modifier) {
                                         .padding(3.dp)
                                 )
                             }
+                            Spacer(modifier.width(5.dp))
                             IconButton(
                                 onClick = {},
                                 colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),

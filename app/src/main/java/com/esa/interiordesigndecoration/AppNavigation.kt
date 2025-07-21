@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.esa.interiordesigndecoration.screen.DetailProductScrenn
 import com.esa.interiordesigndecoration.screen.bathroom.BathRoom
 import com.esa.interiordesigndecoration.screen.bedroom.BedRoomScreen
+import com.esa.interiordesigndecoration.screen.cart.CartScreen
 import com.esa.interiordesigndecoration.screen.forgotpassword.ForgotPasswordScreen
 import com.esa.interiordesigndecoration.screen.homepage.HomePageScreen
 import com.esa.interiordesigndecoration.screen.kitchenroom.Kitchen
@@ -31,59 +32,72 @@ fun AppNavigation(
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
             SplashScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("launch") {
             LaunchScreenAndLoginSigUp(
                 navController = navController,
+                modifier = modifier
             )
         }
         composable("login") {
             LoginScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("signup") {
             SignupScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("forgotPassword") {
             ForgotPasswordScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("onBoarding") {
             OnBoardingScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("homePage") {
             HomePageScreen(
+                modifier = modifier,
                 navController = navController,
-                selectedRoomIndex = selectedRoomIndex)
+                selectedRoomIndex = selectedRoomIndex,
+                navigateToDetailProduct = { navController.navigate("productDetail/${it}") }
+            )
         }
         composable("bedRoom") {
             BedRoomScreen(
+                modifier = modifier,
                 navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
                 onBackClicked = {navController.popBackStack()}
             )
         }
         composable("kitchen") {
             Kitchen(
+                modifier = modifier,
                 navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
                 onBackClicked = {navController.popBackStack()}
             )
         }
         composable("livingRoom") {
             LivingRoomScreen(
+                modifier = modifier,
                 navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
                 onBackClicked = {navController.popBackStack()}
             )
         }
         composable("bathRoom") {
             BathRoom(
+                modifier = modifier,
                 navigateToDetailProduct = { navController.navigate("productDetail/${it}") },
                 onBackClicked = {navController.popBackStack()}
             )
@@ -91,17 +105,25 @@ fun AppNavigation(
         composable("productDetail/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId") ?: ""
             DetailProductScrenn(
+                modifier = modifier,
                 productId = productId,
                 onBackClicked = { navController.popBackStack() }
             )
         }
+        composable("cart"){
+            CartScreen(
+                modifier = modifier
+            )
+        }
         composable("wishList"){
             WishListScreen(
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
         }
         composable("myProfile"){
             MyProfileScreen(
+                modifier = modifier,
                 navController = navController
             )
         }

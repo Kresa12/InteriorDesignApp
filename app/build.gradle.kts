@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0") // Sesuaikan versi terbaru
+
 
     //workruntime
     val work_version = "2.10.2"

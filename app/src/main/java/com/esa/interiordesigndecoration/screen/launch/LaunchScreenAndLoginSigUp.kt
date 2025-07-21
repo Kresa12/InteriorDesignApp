@@ -32,10 +32,11 @@ import com.esa.interiordesigndecoration.data.viewmodel.AuthState
 
 @Composable
 fun LaunchScreenAndLoginSigUp(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFFFFFFF))
     ) {

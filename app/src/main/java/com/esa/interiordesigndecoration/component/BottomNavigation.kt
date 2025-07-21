@@ -2,7 +2,6 @@ package com.esa.interiordesigndecoration.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -27,7 +26,6 @@ fun BottomNavigationBar(navController: NavController , selectedRoom: Int) {
 
     BottomNavigation(
         backgroundColor = Color.White,
-        elevation = 10.dp,
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
@@ -65,8 +63,8 @@ fun BottomNavigationBar(navController: NavController , selectedRoom: Int) {
                         1 -> {
                             when(selectedRoom){
                                 0 -> navController.navigate("bedRoom")
-                                1 -> navController.navigate("kitchen")
-                                2 -> navController.navigate("livingRoom")
+                                1 -> navController.navigate("livingRoom")
+                                2 -> navController.navigate("kitchen")
                                 3 -> navController.navigate("bathRoom")
                             }
                         }

@@ -50,7 +50,7 @@ fun SetPasswordScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(10.dp))
         Text(
             text = stringResource(R.string.change_the_password),
             fontWeight = FontWeight.Bold,

@@ -18,16 +18,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        window.navigationBarColor = android.graphics.Color.WHITE
         setContent {
             val navController = rememberNavController()
             val currentBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = currentBackStackEntry?.destination?.route
 
             val bottomBarScreens = listOf(
-                "homePage", "category", "wishList", "cart", "profile"
+                "homePage", "bedRoom", "kitchen", "livingRoom", "bathRoom", "wishList", "cart", "myProfile"
             )
 
             val showBottomBar = bottomBarScreens.any { currentRoute?.startsWith(it) == true }
@@ -38,9 +40,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = {
                         if (showBottomBar) {
-                            BottomNavigationBar(navController = navController, selectedRoom = selectedRoomIndex.value)
+                            BottomNavigationBar(navController = navController, selectedRoom = selectedRoomIndex.intValue)
                         }
-                    }
+                    },
                 ) { innerPadding ->
                     AppNavigation(
                         navController = navController,

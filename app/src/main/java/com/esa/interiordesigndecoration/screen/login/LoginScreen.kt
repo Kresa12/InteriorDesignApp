@@ -52,7 +52,8 @@ import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun LoginScreen(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -63,11 +64,11 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(60.dp))
+        Spacer(Modifier.height(10.dp))
         TopBar(
             onBackClicked = {
                 navController.navigate("launch")

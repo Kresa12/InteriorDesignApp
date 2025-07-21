@@ -20,7 +20,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     LaunchedEffect(Unit) {
@@ -36,7 +37,7 @@ fun SplashScreen(
         }
     }
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFCC7861)),
         contentAlignment = Alignment.Center

@@ -44,7 +44,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingScreen(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     val pages = listOf(
         OnBoardingModel.First,
@@ -56,7 +57,7 @@ fun OnBoardingScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
@@ -69,7 +70,7 @@ fun OnBoardingScreen(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(top = 55.dp, end = 15.dp)
+                        .padding(top = 20.dp, end = 15.dp)
                 ){
                     SkipButton(
                         modifier = Modifier
