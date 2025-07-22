@@ -1,6 +1,6 @@
 package com.esa.interiordesigndecoration.data.repository
 
-import com.esa.interiordesigndecoration.data.api.APIService
+import com.esa.interiordesigndecoration.data.remote.api.APIService
 import com.esa.interiordesigndecoration.data.model.ProductModel
 import javax.inject.Inject
 

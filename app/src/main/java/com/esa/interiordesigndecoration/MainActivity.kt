@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.esa.interiordesigndecoration.component.BottomNavigationBar
+import com.esa.interiordesigndecoration.ui.component.BottomNavigationBar
 import com.esa.interiordesigndecoration.ui.theme.InteriorDesignDecorationTheme
 import dagger.hilt.android.AndroidEntryPoint
 

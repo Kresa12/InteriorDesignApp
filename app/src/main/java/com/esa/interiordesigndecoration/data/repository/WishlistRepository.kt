@@ -1,7 +1,7 @@
 package com.esa.interiordesigndecoration.data.repository
 
-import com.esa.interiordesigndecoration.data.db.WishlishEntity
-import com.esa.interiordesigndecoration.data.db.WishlistDao
+import com.esa.interiordesigndecoration.data.local.wishlist.WishlishEntity
+import com.esa.interiordesigndecoration.data.local.wishlist.WishlistDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
