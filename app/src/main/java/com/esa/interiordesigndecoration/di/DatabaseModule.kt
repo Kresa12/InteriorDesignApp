@@ -2,7 +2,9 @@ package com.esa.interiordesigndecoration.di
 
 import android.content.Context
 import androidx.room.Room
-import com.esa.interiordesigndecoration.data.local.wishlist.AppDatabase
+import com.esa.interiordesigndecoration.data.AppDatabase
+import com.esa.interiordesigndecoration.data.local.cart.CartDao
+import com.esa.interiordesigndecoration.data.local.cart.CartEntity
 import com.esa.interiordesigndecoration.data.local.wishlist.WishlistDao
 import dagger.Module
 import dagger.Provides
@@ -27,7 +29,9 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun ProvideWishlistDao(db : AppDatabase): WishlistDao {
-        return db.wishlistDao()
-    }
+    fun ProvideWishlistDao(db : AppDatabase): WishlistDao = db.wishlistDao()
+
+    @Provides
+    @Singleton
+    fun ProvideCartDao(db : AppDatabase): CartDao = db.cartDao()
 }

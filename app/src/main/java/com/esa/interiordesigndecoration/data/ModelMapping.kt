@@ -14,11 +14,12 @@ fun ProductModel.toWishlistEntity() : WishlishEntity {
     )
 }
 
-fun ProductModel.toCartEntity(): CartEntity {
+fun ProductModel.toCartEntity(quantity : Int = 1): CartEntity {
     return CartEntity(
         id = this.id,
         name = this.name,
         price = this.price,
-        pictureUrl = this.pictureUrl
+        pictureUrl = this.pictureUrl,
+        quantity = quantity
     )
 }
