@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.esa.interiordesigndecoration.data.AppDatabase
 import com.esa.interiordesigndecoration.data.local.cart.CartDao
-import com.esa.interiordesigndecoration.data.local.cart.CartEntity
 import com.esa.interiordesigndecoration.data.local.wishlist.WishlistDao
 import dagger.Module
 import dagger.Provides
@@ -21,10 +20,10 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context) : AppDatabase {
         return Room.databaseBuilder(
-            context = context,
-            klass = AppDatabase::class.java,
-            name = "interior_design_db"
-        ).build()
+                context = context,
+                klass = AppDatabase::class.java,
+                name = "interior_design_db"
+            ).build()
     }
 
     @Provides

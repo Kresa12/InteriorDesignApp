@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,4 +19,10 @@ interface CartDao {
 
     @Delete
     suspend fun delete(cart : CartEntity)
+
+    @Update
+    suspend fun update(cart: CartEntity)
+
+    @Query("SELECT SUM(price * quantity) FROM cart")
+    fun subTotalPrice(): Flow<Float>
 }

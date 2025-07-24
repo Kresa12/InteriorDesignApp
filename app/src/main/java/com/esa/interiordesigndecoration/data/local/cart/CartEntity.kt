@@ -10,5 +10,5 @@ data class CartEntity(
     val name : String,
     val price : Float,
     val pictureUrl : String,
-    val quantity : Int
+    val quantity : Int = 1
 )

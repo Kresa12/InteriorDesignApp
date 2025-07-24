@@ -19,6 +19,7 @@ import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.ui.component.CardProductListByRoom
 import com.esa.interiordesigndecoration.ui.component.Category
 import com.esa.interiordesigndecoration.ui.component.TopBarHome
+import com.esa.interiordesigndecoration.viewmodel.CartViewModel
 import com.esa.interiordesigndecoration.viewmodel.WishlistViewModel
 
 @Composable
@@ -30,6 +31,8 @@ fun LivingRoomScreen(
     val selectedRoom by remember{ mutableStateOf("LivingRoom") }
     var selectedCategory by remember { mutableStateOf("") }
     val viewModelProductWishList : WishlistViewModel = hiltViewModel()
+    val viewModelCart : CartViewModel = hiltViewModel()
+
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -43,6 +46,6 @@ fun LivingRoomScreen(
         Spacer(Modifier.height(25.dp))
         Category(onCategorySelected = {selectedCategory = it})
         Spacer(Modifier.height(35.dp))
-        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory, viewModelProductWishList = viewModelProductWishList)
+        CardProductListByRoom(navigateToDetailProduct = navigateToDetailProduct ,selectedRoom = selectedRoom, selectedCategory = selectedCategory, viewModelProductWishList = viewModelProductWishList, viewModelCart = viewModelCart)
     }
 }

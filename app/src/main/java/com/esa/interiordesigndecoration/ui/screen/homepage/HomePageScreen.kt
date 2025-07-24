@@ -63,6 +63,8 @@ import coil3.compose.AsyncImage
 import com.esa.interiordesigndecoration.R
 import com.esa.interiordesigndecoration.data.toWishlistEntity
 import com.esa.interiordesigndecoration.data.model.RoomNameModel
+import com.esa.interiordesigndecoration.data.toCartEntity
+import com.esa.interiordesigndecoration.viewmodel.CartViewModel
 import com.esa.interiordesigndecoration.viewmodel.ProductViewModel
 import com.esa.interiordesigndecoration.viewmodel.WishlistViewModel
 import kotlinx.coroutines.delay
@@ -76,6 +78,7 @@ fun HomePageScreen(
     navigateToDetailProduct : (Int) -> Unit = {}
     ) {
     val viewModelProductWishList : WishlistViewModel = hiltViewModel()
+    val viewModelCart : CartViewModel = hiltViewModel()
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 20.dp),
         modifier = modifier
@@ -111,7 +114,7 @@ fun HomePageScreen(
         item { Spacer(Modifier.height(15.dp)) }
         item { BestSeller() }
         item { Spacer(Modifier.height(15.dp)) }
-        item { NewCollection(navigateToDetailProduct = navigateToDetailProduct, viewModelProductWishList = viewModelProductWishList) }
+        item { NewCollection(navigateToDetailProduct = navigateToDetailProduct, viewModelProductWishList = viewModelProductWishList, viewModelCart = viewModelCart) }
     }
 }
 
@@ -314,6 +317,7 @@ fun NewCollection(
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel = hiltViewModel(),
     viewModelProductWishList : WishlistViewModel = hiltViewModel(),
+    viewModelCart : CartViewModel = hiltViewModel(),
     navigateToDetailProduct : (Int) -> Unit = {}
     ) {
     val productList by viewModel.product.collectAsState()
@@ -423,7 +427,9 @@ fun NewCollection(
                             }
                             Spacer(modifier.width(5.dp))
                             IconButton(
-                                onClick = {},
+                                onClick = {
+                                    viewModelCart.insert(it.toCartEntity())
+                                },
                                 colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                 modifier = Modifier
                                     .size(20.dp)

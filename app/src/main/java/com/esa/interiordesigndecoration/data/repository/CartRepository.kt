@@ -13,4 +13,8 @@ class CartRepository @Inject constructor(
     suspend fun insert(cart : CartEntity) = dao.insert(cart = cart)
 
     suspend fun delete(cart : CartEntity) = dao.delete(cart = cart)
+
+    suspend fun update(cart: CartEntity) = dao.update(cart = cart)
+
+    fun subTotalPrice() = dao.subTotalPrice()
 }

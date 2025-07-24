@@ -41,7 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import com.esa.interiordesigndecoration.data.toCartEntity
 import com.esa.interiordesigndecoration.data.toWishlistEntity
+import com.esa.interiordesigndecoration.viewmodel.CartViewModel
 import com.esa.interiordesigndecoration.viewmodel.ProductViewModel
 import com.esa.interiordesigndecoration.viewmodel.WishlistViewModel
 
@@ -52,7 +54,8 @@ fun CardProductListByRoom(
     viewModel: ProductViewModel = hiltViewModel(),
     selectedRoom : String,
     selectedCategory : String,
-    viewModelProductWishList : WishlistViewModel = hiltViewModel()
+    viewModelProductWishList : WishlistViewModel = hiltViewModel(),
+    viewModelCart : CartViewModel = hiltViewModel()
 ) {
     val productByRoom by viewModel.productByRoom.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
@@ -163,7 +166,9 @@ fun CardProductListByRoom(
                                 }
                                 Spacer(modifier.width(5.dp))
                                 IconButton(
-                                    onClick = {},
+                                    onClick = {
+                                        viewModelCart.insert(it.toCartEntity())
+                                    },
                                     colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                     modifier = Modifier
                                         .size(20.dp)
@@ -247,7 +252,9 @@ fun CardProductListByRoom(
                                 )
                                 Row {
                                     IconButton(
-                                        onClick = {},
+                                        onClick = {
+                                            viewModelProductWishList.insert(it.toWishlistEntity())
+                                        },
                                         colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                         modifier = Modifier
                                             .size(20.dp)
@@ -263,7 +270,9 @@ fun CardProductListByRoom(
                                     }
                                     Spacer(modifier.width(5.dp))
                                     IconButton(
-                                        onClick = {},
+                                        onClick = {
+                                            viewModelCart.insert(it.toCartEntity())
+                                        },
                                         colors = IconButtonDefaults.iconButtonColors(Color((0xFFF4B5A4))),
                                         modifier = Modifier
                                             .size(20.dp)

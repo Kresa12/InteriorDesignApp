@@ -19,8 +19,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,7 +41,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,6 +58,9 @@ fun CartScreen(
 ) {
     val viewModelCart: CartViewModel = hiltViewModel()
     val cart by viewModelCart.cart.collectAsState()
+    val subTotal by viewModelCart.subtotal.collectAsState()
+    val tax by viewModelCart.tax.collectAsState()
+    val total by viewModelCart.total.collectAsState()
 
     Column(
         modifier = modifier
@@ -66,6 +75,7 @@ fun CartScreen(
                 .width(220.dp)
                 .padding(start = 20.dp)
         )
+        Spacer(Modifier.height(25.dp))
         if (cart.isEmpty()) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -92,21 +102,27 @@ fun CartScreen(
                     )
                 }
             }
-        }else{
+        } else {
             Column(
-
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                LazyColumn {
-                    items(cart){
-                        if (it != null){
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp)
+                ) {
+                    items(cart) {
+                        if (it != null) {
                             Row(
+                                verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .heightIn(max = 90.dp)
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .size(90.dp)
+                                        .size(80.dp)
                                         .clip(shape = RoundedCornerShape(10.dp))
                                 ) {
                                     AsyncImage(
@@ -127,23 +143,159 @@ fun CartScreen(
                                         fontSize = 17.sp,
                                         color = Color(0xFFCC7861)
                                     )
+                                    Spacer(Modifier.height(5.dp))
                                     Text(
                                         text = "$ ${it.price}",
-                                        fontSize = 14.sp
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.SemiBold
                                     )
                                 }
-                                Icon(
-                                    imageVector = Icons.Default.RestoreFromTrash,
-                                    contentDescription = null,
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier
-                                        .clickable {
-
+                                        .padding(end = 10.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.RestoreFromTrash,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .clickable {
+                                                viewModelCart.delete(it)
+                                            }
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        IconButton(
+                                            onClick = {
+                                                val updateCart = it.copy(quantity = it.quantity - 1)
+                                                viewModelCart.update(cart = updateCart)
+                                            },
+                                            enabled = it.quantity > 1,
+                                            colors = IconButtonDefaults.iconButtonColors(
+                                                Color(
+                                                    0xFFF4B5A4
+                                                )
+                                            ),
+                                            modifier = Modifier
+                                                .size(18.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Remove,
+                                                contentDescription = null
+                                            )
                                         }
-                                        .weight(1f)
-                                        .padding(top = 5.dp)
-                                )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            text = it.quantity.toString(),
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        IconButton(
+                                            onClick = {
+                                                val updateCart = it.copy(quantity = it.quantity + 1)
+                                                viewModelCart.update(cart = updateCart)
+                                            },
+                                            colors = IconButtonDefaults.iconButtonColors(
+                                                Color(
+                                                    0xFFF4B5A4
+                                                )
+                                            ),
+                                            modifier = Modifier
+                                                .size(18.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Add,
+                                                contentDescription = null
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
+                    }
+                }
+                Spacer(Modifier.height(15.dp))
+                HorizontalDivider(color = Color(0xFFF4B5A4), thickness = 2.dp, modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp))
+                Spacer(Modifier.height(15.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 35.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Subtotal",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                        Text(
+                            text = "$$subTotal",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 18.sp,
+                            color = Color(0xFFF4B5A4)
+                        )
+                    }
+                    Spacer(Modifier.height(15.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Tax",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                        Text(
+                            text = "$$tax",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 18.sp,
+                            color = Color(0xFFF4B5A4)
+                        )
+                    }
+                    Spacer(Modifier.height(15.dp))
+                    HorizontalDivider(color = Color(0xFFF4B5A4))
+                    Spacer(Modifier.height(15.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Total",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        )
+                        Text(
+                            text = "$$total",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 21.sp,
+                            color = Color(0xFFF4B5A4)
+                        )
+                    }
+                    Spacer(Modifier.height(25.dp))
+                    Button(
+                        onClick = {
+
+                        },
+                        colors = ButtonDefaults.buttonColors(Color(0xFFF4B5A4)),
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(180.dp)
+                            .height(50.dp)
+                    ) {
+                        Text(
+                            text = "Check Out"
+                        )
                     }
                 }
             }
