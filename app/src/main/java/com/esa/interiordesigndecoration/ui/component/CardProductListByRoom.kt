@@ -60,11 +60,10 @@ fun CardProductListByRoom(
     val productByRoom by viewModel.productByRoom.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
     val loadingValue = isLoading.value
-    val onGetALlFurnishInRoomByRoomName = viewModel.getAllFurnishInRoomByRoomName(roomName = selectedRoom)
     val filterProductByCategory = productByRoom.filter { it.categoryName == selectedCategory}
 
-    LaunchedEffect(Unit) {
-        return@LaunchedEffect onGetALlFurnishInRoomByRoomName
+    LaunchedEffect(selectedRoom) {
+        viewModel.getAllFurnishInRoomByRoomName(roomName = selectedRoom)
     }
     Column(
         modifier = modifier

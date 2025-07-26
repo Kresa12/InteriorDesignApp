@@ -40,7 +40,6 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                delay(5000)
                 val result = repository.getProduct()
                 _product.value = result
                 hasFetched = true
